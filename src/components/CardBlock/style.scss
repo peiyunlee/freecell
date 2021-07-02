@@ -1,0 +1,6 @@
+.cardblock {
+  display: grid;
+  grid: auto / repeat(8, 95px);
+  justify-content: space-between;
+  margin-top: 30px;
+}

@@ -1,0 +1,46 @@
+.menu {
+  border-top: 1px solid #bababa;
+  display: grid;
+  grid: auto/auto auto;
+}
+
+.gamestate {
+  display: grid;
+  grid: auto / 60px 120px 120px;
+  align-items: center;
+}
+
+.info{
+    width: 35px;
+    height: 35px;
+    border: 2px solid #000;
+    border-radius: 50%;
+    display: grid;
+    justify-content: center;
+
+    img{
+        width: 100%;
+    }
+}
+
+.gamecontroller {
+  display: grid;
+  justify-content: right;
+  grid: auto / repeat(4,120px);
+  column-gap: 15px;
+  align-items: center;
+
+  button{
+    width: 120px;
+    height: 40px;
+    background-color: #222222;
+    border-radius: 50px;
+    color: white;
+    border: none;
+
+    &:hover{
+        background-color: #FFB53E;
+        
+    }
+  }
+}
