@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import styles from './style.scss';
-import info from '../assets/info.png'
+import info from '../../assets/images/info.png'
 
 class Menu extends React.Component {
+
     render() {
         return (
             <div className={styles.menu}>

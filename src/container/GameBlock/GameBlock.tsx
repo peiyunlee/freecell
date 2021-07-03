@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styles from './style.scss';
-import TableBlock from '../../components/TableBlock/index';
-import CardBlock from '../../components/CardBlock/index';
+import TableBlock from '../../components/TableBlock/TableBlock';
+import CardBlock from '../../components/CardBlock/CardBlock';
 
 class GameBlock extends React.Component {
     render() {

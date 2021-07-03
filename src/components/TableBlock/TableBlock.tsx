@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import styles from './style.scss';
-import logo from '../../../assets/king_happy.png'
-import C from '../../../assets/C.png'
-import D from '../../../assets/D.png'
-import H from '../../../assets/H.png'
-import S from '../../../assets/S.png'
+import logo from '../../assets/images/king_happy.png'
+import C from '../../assets/images/C.png'
+import D from '../../assets/images/D.png'
+import H from '../../assets/images/H.png'
+import S from '../../assets/images/S.png'
 
 class TableBlock extends React.Component {
     render() {
