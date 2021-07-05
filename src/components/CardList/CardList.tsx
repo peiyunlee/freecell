@@ -1,75 +1,59 @@
-import React, { Component } from 'react';
-import { ConcatenationScope, Module } from 'webpack';
+import React, { useState, useEffect } from 'react';
+import { useDrop } from 'react-dnd';
 import styles from './style.scss';
-import A from '../../assets/images/cards/C1.png'
-
-
-interface IImagesKeys {
-    [key: string]: any
-}
-
-const requireContext = require.context("../../assets/images/cards", false, /^\.\/.*\.png$/);
-
-let images: IImagesKeys = {}
-
-requireContext.keys().map((item: string) => {
-    let property = item.replace('./', '').replace('.png', '')
-    images[property] = requireContext(item).default;
-});
+import Card from '../Card/card'
+import images from './Images';
 
 interface MyProps {
-    question: string[]
+    questionLayoutColumn: string[],
+    handleCardMove: (type: string, fromIndex: number, toIndex: number) => void,
+    columnIndex: number,
+    children?: React.ReactNode,
 }
 
-interface MyState {
-    cardList: JSX.Element[]
-}
+function CardList(props: MyProps) {
+    const { questionLayoutColumn, columnIndex, handleCardMove } = props;
 
-class CardList extends React.Component<MyProps, MyState> {
-    state: MyState = {
-        cardList: []
-    }
+    const _renderCard = (item: string, index: number) => {
+        let cardId: string[] = item.split('_');
 
-    componentDidMount() {
-        this._setCard();
-    }
-
-    render() {
-        return (
-            <div className={styles.cardlist}>
-                {this.state.cardList}
-            </div>
-        );
-    }
-
-    _setCard() {
-        const { question } = this.props;
-
-        let list = [];
-
-        for (let i = 0; i < question.length; i++) {
-            let cardId: string[] = question[i].split('_');
-
-            let type: string;
-            switch (cardId[0]) {
-                case 'spades': type = 'S';
-                    break;
-                case 'heart': type = 'H';
-                    break;
-                case 'diamond': type = 'D';
-                    break;
-                case 'club': type = 'C';
-                    break;
-                default:
-                    return;
-                    break;
-            }
-
-            list.push(<img key={'card' + question[i]} src={images[type.concat('', cardId[1])]} alt="" />)
+        let type: string;
+        switch (cardId[0]) {
+            case 'spades': type = 'S';
+                break;
+            case 'heart': type = 'H';
+                break;
+            case 'diamond': type = 'D';
+                break;
+            case 'club': type = 'C';
+                break;
+            default:
+                return;
+                break;
         }
 
-        this.setState({ cardList: list })
+        const propsToCard = {
+            cardUrl: images[type.concat('', cardId[1])],
+            columnIndex: columnIndex,
+        }
+        return <Card key={'card_' + item} {...propsToCard} />
     }
+
+    const [{ }, dropRef] = useDrop({
+        accept: 'card',
+        drop: () => {
+            const from = 2;
+            const to = 3;
+            handleCardMove("QuestionLayout", from, to);
+        },
+        // canDrop: item => item.columnIndex !== columnIndex
+    });
+
+    return (
+        <div className={styles.cardlist} ref={dropRef}>
+            {questionLayoutColumn.map((item: string, index: number) => { return _renderCard(item, index) })}
+        </div>
+    );
 }
 
 export default CardList;

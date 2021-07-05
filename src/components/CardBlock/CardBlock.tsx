@@ -1,57 +1,57 @@
-import React, { Component } from 'react';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { storeTypes } from '../../store/configureStore';
 import styles from './style.scss';
 import CardList from '../CardList/CardList';
+import { setQuestionLayout } from '../../actions/cardActions';
 
-interface IDispatcherProps {
-    // deleteTodo: () => void;
-    // toggleTodo: () => void;
-    // editTodo: (text: string) => void;
+function CardBlock() {
+    const questionLayoutStore = useSelector((store: storeTypes) => store.cardReducer.questionLayout)
+    const [questionLayout, setquestionLayout] = useState<Array<Array<string>>>(questionLayoutStore)
+
+    useEffect(() => {
+        setquestionLayout(questionLayoutStore)
+    }, [questionLayoutStore])
+
+    const dispatch = useDispatch();
+
+    const handleCardMove = (type: string, fromIndex: number, toIndex: number) => {
+        switch (type) {
+            case "QuestionLayout":
+                _setCardToQuestionLayout(fromIndex, toIndex)
+                break;
+            case "TempLayout":
+                break;
+            case "OverLayout":
+                break;
+            default:
+                break;
+        }
+    }
+
+    const _setCardToQuestionLayout = (fromIndex: number, toIndex: number) => {
+        let newQuestionLayout: Array<Array<string>> = questionLayoutStore;
+        let cardId: string | undefined = questionLayoutStore[fromIndex].pop()
+        if (cardId) {
+            newQuestionLayout[toIndex].push(cardId);
+            dispatch(setQuestionLayout(newQuestionLayout))
+        }
+    }
+
+    const _renderCardList = (item: string[], index: number) => {
+        const propsToCardList = {
+            questionLayoutColumn: item,
+            handleCardMove,
+            columnIndex: index,
+        }
+        return <CardList {...propsToCardList} key={"cardlist_" + index} />
+    }
+
+    return (
+        <div className={styles.cardblock}>
+            {questionLayout.map((item: string[], index: number) => { return _renderCardList(item,index) })}
+        </div>
+    );
 }
 
-const mapStateToProps = (store: storeTypes) => ({
-    question: store.cardReducer.question,
-});
-
-const mapDispatcherToProps = (dispatch: Dispatch): IDispatcherProps => ({
-    // deleteTodo: () => dispatch(actions.deleteTodo(ownProps.id)),
-    // toggleTodo: () => dispatch(actions.toggleTodo(ownProps.id)),
-    // editTodo: (text: string) => dispatch(actions.editTodo(ownProps.id, text))
-});
-
-export type ReduxType = ReturnType<typeof mapStateToProps>;
-
-interface MyState {
-    cardList: JSX.Element[]
-}
-
-class CardBlock extends React.Component<ReduxType, MyState> {
-    state: MyState = {
-        cardList: []
-    }
-
-    componentDidMount() {
-        this._setCardQuestion();
-    }
-
-    render() {
-        return (
-            <div className={styles.cardblock}>
-                {this.state.cardList}
-            </div>
-        );
-    }
-
-    _setCardQuestion() {
-        const { question } = this.props;
-        let list = [];
-        for (let i = 0; i < 8; i++) {
-            list.push(<CardList question={question[i]} key={"cardlist_" + i} />)
-    }
-        this.setState({ cardList: list })
-    }
-}
-
-export default connect(mapStateToProps, mapDispatcherToProps)(CardBlock);
+export default CardBlock;
