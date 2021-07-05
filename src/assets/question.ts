@@ -19,6 +19,3 @@ export const questions = [[
   ]];
 
 
-export interface IQuestion {
-    question: typeof questions[0]
-}

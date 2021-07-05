@@ -1,17 +1,39 @@
-import { questions, IQuestion } from '../assets/question'
+import { questions } from '../assets/question'
 import * as types from '../constants/actionTypes';
 import { cardAction } from '../actions/cardActions'
 
-const initialState: IQuestion = {
-    question: questions[0],
+interface StoreState {
+    questionLayout: Array<Array<string>>,
+    tempLayout: [[], [], [], []],
+    overLayout: [[], [], [], []],
 }
 
-const cardReducer = (state = initialState, action: cardAction) => {
+const initialState: StoreState = {
+    questionLayout: questions[0],
+    tempLayout: [[], [], [], []],
+    overLayout: [[], [], [], []],
+};
+
+const cardReducer = (state = initialState, action: cardAction): StoreState => {
     switch (action.type) {
-        case types.SET_QUESTION:
+        case types.SET_QUESTIONLAYOUT:
             return {
-                question: questions[1],
-            };
+                ...state,
+                // questionLayout: action.questionLayout
+                questionLayout: [
+                    ...action.questionLayout,
+                ],
+            }
+            break;
+        case types.SET_TEMPLAYOUT:
+            return Object.assign({}, state, {
+                tempLayout: action.tempLayout
+            })
+            break;
+        case types.SET_OVERLAYOUT:
+            return Object.assign({}, state, {
+                overLayout: action.overLayout
+            })
             break;
         default:
             return state;

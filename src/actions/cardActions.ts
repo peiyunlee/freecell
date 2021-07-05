@@ -1,13 +1,33 @@
 import * as types from '../constants/actionTypes';
-import { IQuestion } from '../assets/question'
 
-interface ISetQuestionAction {
-    payload: IQuestion;
-    type: types.SET_QUESTION;
+interface SetQuestionLayoutAction {
+    questionLayout: string[][];
+    type: types.SET_QUESTIONLAYOUT;
 }
 
-export const setQuestion = () => ({
-    type: types.SET_QUESTION,
+interface SetTempLayoutAction {
+    tempLayout: string[][];
+    type: types.SET_TEMPLAYOUT;
+}
+
+interface SetOverLayoutAction {
+    overLayout: string[][];
+    type: types.SET_OVERLAYOUT;
+}
+
+export const setQuestionLayout = (questionLayout: string[][]): SetQuestionLayoutAction => ({
+    questionLayout: questionLayout,
+    type: types.SET_QUESTIONLAYOUT,
 });
 
-export type cardAction = ISetQuestionAction;
+export const setTempLayout = (tempLayout: string[][]): SetTempLayoutAction => ({
+    tempLayout: tempLayout,
+    type: types.SET_TEMPLAYOUT,
+});
+
+export const setOverLayout = (overLayout: string[][]): SetOverLayoutAction => ({
+    overLayout: overLayout,
+    type: types.SET_OVERLAYOUT,
+});
+
+export type cardAction = SetQuestionLayoutAction | SetTempLayoutAction | SetOverLayoutAction;
