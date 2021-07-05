@@ -2,6 +2,7 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
   font-family: "Lato", sans-serif;
   font-weight: 700;
   color: #222222;
@@ -9,15 +10,17 @@
 }
 .app {
   width: 100%;
+  min-width: 1200px;
   background-color: #e2e2e2;
   height: 100vh;
   display: grid;
-  grid: auto 80px / auto;
+  grid: 145px auto 80px / auto;
   justify-content: center;
+  padding-top: 50px;
 }
 
-@media (max-width: 1200px) {
-  .app {
-    justify-content: left;
-  }
-}
+// @media (max-width: 1200px) {
+//   .app {
+//     justify-content: left;
+//   }
+// }

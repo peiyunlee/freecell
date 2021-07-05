@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import styles from './style.scss';
-import Card from '../Card/card'
+import Card from './card'
 import images from './Images';
 
 interface MyProps {
@@ -41,12 +41,12 @@ function CardList(props: MyProps) {
 
     const [{ }, dropRef] = useDrop({
         accept: 'card',
-        drop: () => {
-            const from = 2;
-            const to = 3;
+        drop: (item: { columnIndex: number }) => {
+            const from = item.columnIndex;
+            const to = columnIndex;
             handleCardMove("QuestionLayout", from, to);
         },
-        // canDrop: item => item.columnIndex !== columnIndex
+        canDrop: item => item.columnIndex !== columnIndex
     });
 
     return (

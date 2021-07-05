@@ -8,9 +8,12 @@ interface MyProps {
     children?: React.ReactNode,
 }
 
-function CardList({ cardUrl }: MyProps) {
-    const [{ isDragging }, drag] = useDrag(() => ({
+function Card(props: MyProps) {
+    const { cardUrl, columnIndex } = props
+
+    const [{isDragging}, dragRef] = useDrag(() => ({
         type: 'card',
+        item: { columnIndex },
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),
@@ -19,9 +22,9 @@ function CardList({ cardUrl }: MyProps) {
 
     return (
         <>
-            <img className={isDragging ? styles.cardImg_drag : styles.cardImg} ref={drag} src={cardUrl} alt="" />
+            <img className={isDragging ? styles.cardImg_drag : styles.cardImg} ref={dragRef} src={cardUrl} alt="" />
         </>
     );
 }
 
-export default CardList;
+export default Card;

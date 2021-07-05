@@ -4,8 +4,8 @@ import { cardAction } from '../actions/cardActions'
 
 interface StoreState {
     questionLayout: Array<Array<string>>,
-    tempLayout: [[], [], [], []],
-    overLayout: [[], [], [], []],
+    tempLayout: Array<Array<string>>,
+    overLayout: Array<Array<string>>,
 }
 
 const initialState: StoreState = {
@@ -19,21 +19,26 @@ const cardReducer = (state = initialState, action: cardAction): StoreState => {
         case types.SET_QUESTIONLAYOUT:
             return {
                 ...state,
-                // questionLayout: action.questionLayout
                 questionLayout: [
                     ...action.questionLayout,
                 ],
             }
             break;
         case types.SET_TEMPLAYOUT:
-            return Object.assign({}, state, {
-                tempLayout: action.tempLayout
-            })
+            return {
+                ...state,
+                tempLayout: [
+                    ...action.tempLayout,
+                ],
+            }
             break;
         case types.SET_OVERLAYOUT:
-            return Object.assign({}, state, {
-                overLayout: action.overLayout
-            })
+            return {
+                ...state,
+                overLayout: [
+                    ...action.overLayout,
+                ],
+            }
             break;
         default:
             return state;
