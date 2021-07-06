@@ -3,15 +3,15 @@ import * as types from '../constants/actionTypes';
 import { cardAction } from '../actions/cardActions'
 
 interface StoreState {
-    questionLayout: Array<Array<string>>,
-    tempLayout: Array<Array<string>>,
-    overLayout: Array<Array<string>>,
+    questionLayout: string[][],
+    tempLayout: string[],
+    overLayout: string[][],
 }
 
 const initialState: StoreState = {
     questionLayout: questions[0],
-    tempLayout: [[], [], [], []],
-    overLayout: [[], [], [], []],
+    tempLayout: ['', '', '', ''],
+    overLayout: [['H1', 'H1', 'H1', 'H1'], [], [], []],
 };
 
 const cardReducer = (state = initialState, action: cardAction): StoreState => {

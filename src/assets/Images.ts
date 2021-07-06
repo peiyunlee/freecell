@@ -2,7 +2,7 @@ interface ImagesKeys {
     [key: string]: any
 }
 
-const requireContext = require.context("../../assets/images/cards", false, /^\.\/.*\.png$/);
+const requireContext = require.context("./images/cards", false, /^\.\/.*\.png$/);
 
 let images: ImagesKeys = {}
 

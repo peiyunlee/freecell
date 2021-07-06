@@ -6,7 +6,7 @@ interface SetQuestionLayoutAction {
 }
 
 interface SetTempLayoutAction {
-    tempLayout: string[][];
+    tempLayout: string[];
     type: types.SET_TEMPLAYOUT;
 }
 
@@ -20,7 +20,7 @@ export const setQuestionLayout = (questionLayout: string[][]): SetQuestionLayout
     type: types.SET_QUESTIONLAYOUT,
 });
 
-export const setTempLayout = (tempLayout: string[][]): SetTempLayoutAction => ({
+export const setTempLayout = (tempLayout: string[]): SetTempLayoutAction => ({
     tempLayout: tempLayout,
     type: types.SET_TEMPLAYOUT,
 });

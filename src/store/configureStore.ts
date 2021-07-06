@@ -5,8 +5,8 @@ const rootReducer = combineReducers({
     cardReducer,
 });
 
-const store = createStore(rootReducer);
+const rootStore = createStore(rootReducer);
 
 export type storeTypes = ReturnType<typeof rootReducer>;
 
-export default store;
+export default rootStore;

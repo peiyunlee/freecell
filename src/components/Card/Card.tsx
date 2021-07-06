@@ -1,19 +1,21 @@
 import React from 'react';
 import { useDrag } from 'react-dnd'
 import styles from './style.scss';
+import images from '../../assets/Images';
 
 interface MyProps {
-    cardUrl: string,
-    columnIndex: number,
+    cardId: string,
+    table: string,
+    tableIndex: number,
     children?: React.ReactNode,
 }
 
 function Card(props: MyProps) {
-    const { cardUrl, columnIndex } = props
+    const { tableIndex, cardId, table } = props
 
-    const [{isDragging}, dragRef] = useDrag(() => ({
+    const [{ isDragging }, dragRef] = useDrag(() => ({
         type: 'card',
-        item: { columnIndex },
+        item: { tableIndex, table },
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),
@@ -22,7 +24,7 @@ function Card(props: MyProps) {
 
     return (
         <>
-            <img className={isDragging ? styles.cardImg_drag : styles.cardImg} ref={dragRef} src={cardUrl} alt="" />
+            <img className={isDragging ? styles.cardImg_drag : styles.cardImg} ref={dragRef} src={images[cardId]} alt="" />
         </>
     );
 }
