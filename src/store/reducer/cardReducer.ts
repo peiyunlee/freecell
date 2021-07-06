@@ -1,5 +1,5 @@
-import { questions } from '../assets/question'
-import * as types from '../constants/actionTypes';
+import { questions } from '../../assets/question'
+import * as types from '../../constants/actionTypes';
 import { cardAction } from '../actions/cardActions'
 
 interface StoreState {

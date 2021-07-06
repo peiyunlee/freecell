@@ -2,6 +2,7 @@ import React from 'react';
 import { useDrag } from 'react-dnd'
 import styles from './style.scss';
 import images from '../../assets/Images';
+import PokerCard from '../../lib/PokerCard'
 
 interface MyProps {
     cardId: string,
@@ -13,9 +14,11 @@ interface MyProps {
 function Card(props: MyProps) {
     const { tableIndex, cardId, table } = props
 
+    const pokerCard = new PokerCard(cardId);
+
     const [{ isDragging }, dragRef] = useDrag(() => ({
         type: 'card',
-        item: { tableIndex, table },
+        item: { tableIndex, table, pokerCard },
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),

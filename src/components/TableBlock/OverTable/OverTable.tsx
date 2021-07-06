@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import styles from '../../TableBlock/style.scss';
 import Card from '../../Card/Card';
@@ -6,6 +6,7 @@ import C from '../../../assets/images/C.png'
 import D from '../../../assets/images/D.png'
 import H from '../../../assets/images/H.png'
 import S from '../../../assets/images/S.png'
+import PokerCard from '../../../lib/PokerCard';
 
 interface MyProps {
     overLayout: string[],
@@ -20,14 +21,26 @@ function OverTable(props: MyProps) {
 
     const [{ }, dropRef] = useDrop({
         accept: 'card',
-        drop: (item: { tableIndex: number, table: string }) => {
+        drop: (item: { tableIndex: number, table: string, pokerCard: PokerCard }) => {
             const from = item.table;
             const to = "OverLayout";
             const fromIndex = item.tableIndex;
             const toIndex = tableIndex;
             handleCardMove(from, to, fromIndex, toIndex);
         },
-        canDrop: item => item.table !== 'OverLayout' || item.tableIndex !== tableIndex
+        canDrop: item => {
+            const tableRight = !(item.table === 'OverLayout' && item.tableIndex === tableIndex);
+            const typeRight = PokerCard.compareType(item.pokerCard.type, tableIndex);
+            let numberRight = true;
+            if (overLayout && !overLayout.length) {
+                numberRight = item.pokerCard.num === 1;
+            }
+            else{
+                numberRight = PokerCard.numberIsPowerUp(overLayout[overLayout.length - 1], item.pokerCard.num)
+            }
+            return tableRight && typeRight && numberRight;
+
+        }
     });
 
     const _renderCardList = (item: string, index: number) => {

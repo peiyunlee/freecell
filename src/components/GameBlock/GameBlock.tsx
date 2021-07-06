@@ -5,7 +5,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import TableBlock from '../../components/TableBlock/TableBlock';
 import CardBlock from '../../components/CardBlock/CardBlock';
-import * as actions from '../../actions/cardActions';
+import * as actions from '../../store/actions/cardActions';
 
 function GameBlock() {
     const store = useSelector((store: storeTypes) => store.cardReducer)
