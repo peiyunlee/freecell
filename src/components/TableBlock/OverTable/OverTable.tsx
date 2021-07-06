@@ -27,7 +27,7 @@ function OverTable(props: MyProps) {
             const toIndex = tableIndex;
             handleCardMove(from, to, fromIndex, toIndex);
         },
-        // canDrop: item => cardId == ''
+        canDrop: item => item.table !== 'OverLayout' || item.tableIndex !== tableIndex
     });
 
     const _renderCardList = (item: string, index: number) => {

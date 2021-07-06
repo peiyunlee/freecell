@@ -11,7 +11,7 @@ interface StoreState {
 const initialState: StoreState = {
     questionLayout: questions[0],
     tempLayout: ['', '', '', ''],
-    overLayout: [['H1', 'H1', 'H1', 'H1'], [], [], []],
+    overLayout: [[], [], [], []],
 };
 
 const cardReducer = (state = initialState, action: cardAction): StoreState => {

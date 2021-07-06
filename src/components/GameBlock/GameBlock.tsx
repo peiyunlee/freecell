@@ -38,6 +38,7 @@ function GameBlock() {
                 _setCardToTempLayout(from, fromIndex, toIndex)
                 break;
             case "OverLayout":
+                _setCardToOverLayout(from, fromIndex, toIndex)
                 break;
             default:
                 break;
@@ -45,24 +46,31 @@ function GameBlock() {
     }
 
     const _setCardToQuestionLayout = (from: string, fromIndex: number, toIndex: number) => {
-        let newQuestionLayout: Array<Array<string>> = questionLayout;
+        let newQuestionLayout: string[][] = questionLayout;
+        let cardId: string | undefined;
         switch (from) {
             case "QuestionLayout":
-                let cardId: string | undefined;
-                cardId = questionLayout[fromIndex].pop();
+                cardId = newQuestionLayout[fromIndex].pop();
                 if (cardId) {
                     newQuestionLayout[toIndex].push(cardId);
                     dispatch(actions.setQuestionLayout(newQuestionLayout))
                 }
                 break;
             case "TempLayout":
-                let newTempLayout: Array<string> = tempLayout;
+                let newTempLayout: string[] = tempLayout;
                 newQuestionLayout[toIndex].push(newTempLayout[fromIndex]);
                 newTempLayout[fromIndex] = '';
                 dispatch(actions.setQuestionLayout(newQuestionLayout))
                 dispatch(actions.setTempLayout(newTempLayout))
                 break;
             case "OverLayout":
+                let newOverLayout: string[][] = overLayout;
+                cardId = newOverLayout[fromIndex].pop();
+                if (cardId) {
+                    newQuestionLayout[toIndex].push(cardId);
+                    dispatch(actions.setQuestionLayout(newQuestionLayout))
+                    dispatch(actions.setOverLayout(newOverLayout))
+                }
                 break;
             default:
                 break;
@@ -70,12 +78,12 @@ function GameBlock() {
     }
 
     const _setCardToTempLayout = (from: string, fromIndex: number, toIndex: number) => {
-        let newTempLayout: Array<string> = tempLayout;
+        let newTempLayout: string[] = tempLayout;
+        let cardId: string | undefined;
         switch (from) {
             case "QuestionLayout":
-                let newQuestionLayout: Array<Array<string>> = questionLayout;
-                let cardId: string | undefined;
-                cardId = questionLayout[fromIndex].pop();
+                let newQuestionLayout: string[][] = questionLayout;
+                cardId = newQuestionLayout[fromIndex].pop();
                 if (cardId) {
                     newTempLayout[toIndex] = cardId;
                     dispatch(actions.setQuestionLayout(newQuestionLayout))
@@ -88,6 +96,46 @@ function GameBlock() {
                 dispatch(actions.setTempLayout(newTempLayout))
                 break;
             case "OverLayout":
+                let newOverLayout: string[][] = overLayout;
+                cardId = newOverLayout[fromIndex].pop();
+                if (cardId) {
+                    newTempLayout[toIndex] = cardId;
+                    dispatch(actions.setOverLayout(newOverLayout))
+                    dispatch(actions.setTempLayout(newTempLayout))
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    const _setCardToOverLayout = (from: string, fromIndex: number, toIndex: number) => {
+        let newOverLayout: string[][] = overLayout;
+        let cardId: string | undefined;
+        switch (from) {
+            case "QuestionLayout":
+                let newQuestionLayout: string[][] = questionLayout;
+                cardId = newQuestionLayout[fromIndex].pop();
+                if (cardId) {
+                    newOverLayout[toIndex].push(cardId);
+                    dispatch(actions.setOverLayout(newOverLayout))
+                    dispatch(actions.setQuestionLayout(newQuestionLayout))
+                }
+                console.log(newOverLayout)
+                break;
+            case "TempLayout":
+                let newTempLayout: string[] = tempLayout;
+                newOverLayout[toIndex].push(newTempLayout[fromIndex]);
+                newTempLayout[fromIndex] = '';
+                dispatch(actions.setOverLayout(newOverLayout))
+                dispatch(actions.setTempLayout(newTempLayout))
+                break;
+            case "OverLayout":
+                cardId = newOverLayout[fromIndex].pop();
+                if (cardId) {
+                    newOverLayout[toIndex].push(cardId);
+                    dispatch(actions.setOverLayout(newOverLayout))
+                }
                 break;
             default:
                 break;

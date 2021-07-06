@@ -35,9 +35,15 @@
       display: grid;
       justify-items: center;
       align-items: center;
+      position: relative;
 
       .tableBg {
         width: 35px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      img {
+        position: absolute;
       }
     }
   }
