@@ -18,12 +18,28 @@ class PokerCard implements IPokerCard {
     this.color = this.getColor();
   }
 
-  static numberIsPowerUp = (cardId: string, num2: number): boolean => {
-    return parseInt(cardId.slice(1)) === --num2
+  static numberIsPowerUp = (cardId1: string, num2: number): boolean => {
+    return parseInt(cardId1.slice(1)) === --num2
   }
 
-  static compareType = (type: string, typeIndex: number): boolean => {
-    return type === TYPE[typeIndex]
+  static numberIsPowerDown = (cardId1: string, num2: number): boolean => {
+    return parseInt(cardId1.slice(1)) === ++num2
+  }
+
+  static compareType = (type1: string, typeIndex2: number): boolean => {
+    return type1 === TYPE[typeIndex2]
+  };
+
+  static compareColor = (cardId1: string, color2: string): boolean => {
+    switch (cardId1.charAt(0)) {
+      case 'H' || 'D':
+        return 'RED' === color2;
+      case 'S' || 'C':
+        return 'BLACK' === color2;
+      default:
+        return true
+        break;
+    }
   };
 
   getType = (cardId: string): string => {

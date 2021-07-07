@@ -18,3 +18,22 @@
   background-color: #bababa;
   border-radius: 5px;
 }
+
+.cardlist {
+  width: 100%;
+  display: grid;
+  grid-auto-rows: 25px;
+  justify-content: center;
+  position: relative;
+  &:before {
+    content: "";
+    width: 91px;
+    height: 141px;
+    opacity: 0.6;
+    border: 2px solid #fcfcfc;
+    border-radius: 5px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

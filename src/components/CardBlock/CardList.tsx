@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
 import styles from './style.scss';
-import Card from '../../Card/Card'
+import Card from '../Card/Card'
+import PokerCard from '../../lib/PokerCard';
 
 interface MyProps {
     questionLayoutColumn: string[],
@@ -24,14 +25,24 @@ function CardList(props: MyProps) {
 
     const [{ }, dropRef] = useDrop({
         accept: 'card',
-        drop: (item: { tableIndex: number, table: string }) => {
+        drop: (item: { tableIndex: number, table: string, pokerCard: PokerCard }) => {
             const from = item.table;
             const to = "QuestionLayout";
             const fromIndex = item.tableIndex;
             const toIndex = tableIndex;
             handleCardMove(from, to, fromIndex, toIndex);
         },
-        canDrop: item => item.table !== 'QuestionLayout' || item.tableIndex !== tableIndex
+        canDrop: item => {
+            console.log(item.pokerCard.num)
+            const tableRight = !(item.table === 'QuestionLayout' && item.tableIndex === tableIndex);
+            let colorRight = true;
+            let numberRight = true;
+            if (!(questionLayoutColumn && !questionLayoutColumn.length)) {
+                colorRight = PokerCard.compareColor(questionLayoutColumn[questionLayoutColumn.length - 1], item.pokerCard.color,);
+                numberRight = PokerCard.numberIsPowerDown(questionLayoutColumn[questionLayoutColumn.length - 1], item.pokerCard.num)
+            }
+            return tableRight && !colorRight && numberRight
+        }
     });
 
     return (

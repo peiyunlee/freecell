@@ -1,5 +1,5 @@
 import styles from './style.scss';
-import CardList from './CardList/CardList';
+import CardList from './CardList';
 
 interface MyProps {
     questionLayout: string[][],
