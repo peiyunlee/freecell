@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDrop } from 'react-dnd'
+// import { useDrop } from 'react-dnd'
 import styles from '../../TableBlock/style.scss';
 import Card from '../../Card/Card';
 import PokerCard from '../../../lib/PokerCard';
@@ -14,17 +14,17 @@ interface MyProps {
 function TempTable(props: MyProps) {
     const { cardId, tableIndex, handleCardMove } = props
 
-    const [{ }, dropRef] = useDrop({
-        accept: 'card',
-        drop: (item: { tableIndex: number, table: string, pokerCard: PokerCard }) => {
-            const from = item.table;
-            const to = "TempLayout";
-            const fromIndex = item.tableIndex;
-            const toIndex = tableIndex;
-            handleCardMove(from, to, fromIndex, toIndex);
-        },
-        canDrop: item => cardId == ''
-    });
+    // const [{ }, dropRef] = useDrop({
+    //     accept: 'card',
+    //     drop: (item: { tableIndex: number, table: string, pokerCard: PokerCard }) => {
+    //         const from = item.table;
+    //         const to = "TempLayout";
+    //         const fromIndex = item.tableIndex;
+    //         const toIndex = tableIndex;
+    //         handleCardMove(from, to, fromIndex, toIndex);
+    //     },
+    //     canDrop: item => cardId == ''
+    // });
 
     const propsToCard = {
         cardId: cardId,
@@ -33,7 +33,7 @@ function TempTable(props: MyProps) {
     }
 
     return (
-        <div ref={dropRef} className={styles.table}>
+        <div className={styles.table}>
             {cardId == '' ? <></> : <Card key={'temp_' + tableIndex} {...propsToCard} />}
         </div>
     );

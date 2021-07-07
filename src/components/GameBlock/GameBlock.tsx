@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd'
+// import { DndProvider } from 'react-dnd';
+// import { HTML5Backend } from 'react-dnd-html5-backend';
 import { storeTypes } from '../../store/configureStore';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import * as actions from '../../store/actions/cardActions';
 import TableBlock from '../../components/TableBlock/TableBlock';
 import CardBlock from '../../components/CardBlock/CardBlock';
-import * as actions from '../../store/actions/cardActions';
+// import CustomDragCard from '../Card/CustomDragCard';
 
 function GameBlock() {
     const store = useSelector((store: storeTypes) => store.cardReducer)
@@ -121,7 +123,6 @@ function GameBlock() {
                     dispatch(actions.setOverLayout(newOverLayout))
                     dispatch(actions.setQuestionLayout(newQuestionLayout))
                 }
-                console.log(newOverLayout)
                 break;
             case "TempLayout":
                 let newTempLayout: string[] = tempLayout;
@@ -142,11 +143,16 @@ function GameBlock() {
         }
     }
 
+    const _handleOnDragEnd = (result: DropResult) => {
+        console.log(result)
+    }
+
     return (
-        <DndProvider backend={HTML5Backend}>
+        <DragDropContext onDragEnd={(result: DropResult) => _handleOnDragEnd(result)}>
+            {/* <CustomDragCard /> */}
             <TableBlock tempLayout={tempLayout} overLayout={overLayout} handleCardMove={handleCardMove} />
             <CardBlock questionLayout={questionLayout} handleCardMove={handleCardMove} />
-        </DndProvider>
+        </DragDropContext>
     );
 }
 

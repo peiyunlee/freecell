@@ -4,16 +4,18 @@ enum TYPE {
   'S' = 0,
   'H',
   'D',
-  'C'
+  'C',
 }
 
 class PokerCard implements IPokerCard {
   type: string;
   num: number;
   color: string;
+  typeNum: number;
 
   constructor(cardId: string) {
     this.type = this.getType(cardId);
+    this.typeNum = this.getTypeNum(this.type)
     this.num = this.getNumber(cardId);
     this.color = this.getColor();
   }
@@ -44,6 +46,26 @@ class PokerCard implements IPokerCard {
 
   getType = (cardId: string): string => {
     return cardId.charAt(0);
+  }
+
+  getTypeNum = (type: string): number => {
+    switch (type) {
+      case 'S':
+        return TYPE.S;
+        break;
+      case 'H':
+        return TYPE.H;
+        break;
+      case 'D':
+        return TYPE.D;
+        break;
+      case 'C':
+        return TYPE.C;
+        break;
+      default:
+        return 0
+        break;
+    }
   }
 
   getNumber = (cardId: string): number => {
