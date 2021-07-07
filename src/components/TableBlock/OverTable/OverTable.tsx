@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-// import { useDrop } from 'react-dnd';
+import React, { useState } from 'react';
 import styles from '../../TableBlock/style.scss';
 import Card from '../../Card/Card';
 import C from '../../../assets/images/C.png'
@@ -9,7 +8,7 @@ import S from '../../../assets/images/S.png'
 import PokerCard from '../../../lib/PokerCard';
 
 interface MyProps {
-    overLayout: string[],
+    overLayout: PokerCard[],
     tableIndex: number,
     handleCardMove: (from: string, to: string, fromIndex: number, toIndex: number) => void,
     children?: React.ReactNode,
@@ -43,19 +42,18 @@ function OverTable(props: MyProps) {
     //     }
     // });
 
-    const _renderCardList = (item: string, index: number) => {
+    const _renderCardList = (item: PokerCard, index: number) => {
         const propsToCard = {
-            cardId: item,
-            table: 'OverLayout',
-            tableIndex: tableIndex,
+            instance: item,
+            draggableIndex: index,
         }
-        return item == '' ? <></> : <Card key={'card_' + item} {...propsToCard} />
+        return item.cardId == '' ? <></> : <Card key={'card_' + item} {...propsToCard} />
     }
 
     return (
         <div className={styles.table}>
             <img className={styles.tableBg} src={tableImg[tableIndex]} alt="" />
-            {overLayout.map((item: string, index: number) => { return _renderCardList(item, index) })}
+            {overLayout.map((item: PokerCard, index: number) => { return _renderCardList(item, index) })}
         </div>
     );
 }

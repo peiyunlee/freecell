@@ -7,17 +7,13 @@ import images from '../../assets/Images';
 import PokerCard from '../../lib/PokerCard'
 
 interface MyProps {
-    cardId: string,
-    table: string,
-    tableIndex: number,
+    instance: PokerCard | null,
     draggableIndex: number,
     children?: React.ReactNode,
 }
 
 function Card(props: MyProps) {
-    const { tableIndex, cardId, table, draggableIndex } = props
-
-    const pokerCard = new PokerCard(cardId);
+    const { instance, draggableIndex } = props
 
     // const [{ isDragging }, dragRef, preview] = useDrag(() => ({
     //     type: 'card',
@@ -29,21 +25,21 @@ function Card(props: MyProps) {
     //     []);
 
 
-    return (
-        <Draggable key={`card_${cardId}`} draggableId={`card_${cardId}`} index={draggableIndex} >
+    return instance == null ? (<></>
+    ) : (
+        <Draggable key={`card_${instance.cardId}`} draggableId={`card_${instance.cardId}`} index={draggableIndex} >
             {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => {
                 let style;
                 if (snapshot.isDragging) {
-                    style = { ...provided.draggableProps.style};
+                    style = { ...provided.draggableProps.style };
                 }
                 else {
                     style = { ...provided.draggableProps.style, transform: 'none' };
                 }
                 // <img className={isDragging ? styles.cardImg_drag : styles.cardImg} ref={dragRef} src={images[cardId]} alt="" />
-                return (<img ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className={styles.cardImg} style={style} src={images[cardId]} alt="" />)
+                return (<img ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className={styles.cardImg} style={style} src={images[instance.cardId]} alt="" />)
             }}
-        </Draggable>
-    );
+        </Draggable>)
 }
 
 export default Card;

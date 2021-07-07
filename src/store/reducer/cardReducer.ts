@@ -1,16 +1,28 @@
 import { questions } from '../../assets/question'
 import * as types from '../../constants/actionTypes';
 import { cardAction } from '../actions/cardActions'
+import PokerCard from '../../lib/PokerCard'
 
 interface StoreState {
-    questionLayout: string[][],
-    tempLayout: string[],
-    overLayout: string[][],
+    questionLayout: PokerCard[][],
+    tempLayout: Array<PokerCard | null>,
+    overLayout: PokerCard[][],
+}
+
+function questionsNewPokerCard(questions: string[][]) {
+    let result: PokerCard[][] = [[]];
+    questions.forEach((item, i) => {
+        result.push([])
+        item.forEach((item, j) => {
+            result[i][j] = new PokerCard(item, 'QuestionLayout', i)
+        })
+    })
+    return result;
 }
 
 const initialState: StoreState = {
-    questionLayout: questions[0],
-    tempLayout: ['', '', '', ''],
+    questionLayout: questionsNewPokerCard(questions[0]),
+    tempLayout: [null, null, null, null],
     overLayout: [[], [], [], []],
 };
 

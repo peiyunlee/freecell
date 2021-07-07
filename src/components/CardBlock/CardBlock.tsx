@@ -1,8 +1,9 @@
 import styles from './style.scss';
 import CardList from './CardList';
+import PokerCard from '../../lib/PokerCard';
 
 interface MyProps {
-    questionLayout: string[][],
+    questionLayout: PokerCard[][],
     handleCardMove: (from: string, to: string, fromIndex: number, toIndex: number) => void,
     children?: React.ReactNode,
 }
@@ -10,7 +11,7 @@ interface MyProps {
 function CardBlock(props: MyProps) {
     const { questionLayout, handleCardMove } = props;
 
-    const _renderCardList = (item: string[], index: number) => {
+    const _renderCardList = (item: PokerCard[], index: number) => {
         const propsToCardList = {
             questionLayoutColumn: item,
             handleCardMove,
@@ -21,7 +22,7 @@ function CardBlock(props: MyProps) {
 
     return (
         <div className={styles.cardblock}>
-            {questionLayout.map((item: string[], index: number) => { return _renderCardList(item, index) })}
+            {questionLayout.map((item: PokerCard[], index: number) => { return _renderCardList(item, index) })}
         </div>
     );
 }

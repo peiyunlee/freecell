@@ -1,8 +1,9 @@
+import PokerCard from '../../../lib/PokerCard';
 import styles from '../../TableBlock/style.scss';
 import OverTable from './OverTable';
 
 interface MyProps {
-    overLayout: string[][]
+    overLayout: PokerCard[][]
     handleCardMove: (from: string, to: string, fromIndex: number, toIndex: number) => void,
     children?: React.ReactNode,
 }
@@ -12,7 +13,7 @@ function OverTableList(props: MyProps) {
 
     return (
         <div className={`${styles.tablelist} ${styles.tablelist_right}`}>
-            {overLayout.map((item, index) => {
+            {overLayout.map((item: PokerCard[], index: number) => {
                 const propsToOverTable = {
                     overLayout: item,
                     tableIndex: index,

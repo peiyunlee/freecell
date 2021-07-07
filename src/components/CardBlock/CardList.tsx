@@ -1,12 +1,11 @@
 import React from 'react';
-// import { useDrop } from 'react-dnd';
-import { Droppable, DraggableProvided } from 'react-beautiful-dnd';
+import { Droppable } from 'react-beautiful-dnd';
 import styles from './style.scss';
 import Card from '../Card/Card'
 import PokerCard from '../../lib/PokerCard';
 
 interface MyProps {
-    questionLayoutColumn: string[],
+    questionLayoutColumn: PokerCard[],
     handleCardMove: (from: string, to: string, fromIndex: number, toIndex: number) => void,
     tableIndex: number,
     children?: React.ReactNode,
@@ -15,14 +14,12 @@ interface MyProps {
 function CardList(props: MyProps) {
     const { questionLayoutColumn, tableIndex, handleCardMove } = props;
 
-    const _renderCard = (item: string, index: number) => {
+    const _renderCard = (item: PokerCard, index: number) => {
         const propsToCard = {
-            cardId: item,
-            table: 'QuestionLayout',
-            tableIndex: tableIndex,
+            instance: item,
             draggableIndex: index,
         }
-        return <Card key={'card_' + item} {...propsToCard} />
+        return <Card key={'card_' + item.cardId} {...propsToCard} />
     }
 
     // const [{ }, dropRef] = useDrop({
@@ -62,7 +59,7 @@ function CardList(props: MyProps) {
         <Droppable droppableId={`cardlist_${tableIndex}`}>
             {(provided) => (
                 <div className={styles.cardlist} {...provided.droppableProps} ref={provided.innerRef}>
-                    {questionLayoutColumn.map((item: string, index: number) => { return _renderCard(item, index) })}
+                    {questionLayoutColumn.map((item: PokerCard, index: number) => { return _renderCard(item, index) })}
                     <span style={{ display: 'none' }}>{provided.placeholder}</span>
                 </div>
             )}

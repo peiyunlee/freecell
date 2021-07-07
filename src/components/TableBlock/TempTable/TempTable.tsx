@@ -5,14 +5,14 @@ import Card from '../../Card/Card';
 import PokerCard from '../../../lib/PokerCard';
 
 interface MyProps {
-    cardId: string,
+    instance: PokerCard | null,
     tableIndex: number,
     handleCardMove: (from: string, to: string, fromIndex: number, toIndex: number) => void,
     children?: React.ReactNode,
 }
 
 function TempTable(props: MyProps) {
-    const { cardId, tableIndex, handleCardMove } = props
+    const { instance, tableIndex, handleCardMove } = props
 
     // const [{ }, dropRef] = useDrop({
     //     accept: 'card',
@@ -27,14 +27,13 @@ function TempTable(props: MyProps) {
     // });
 
     const propsToCard = {
-        cardId: cardId,
-        table: 'TempLayout',
-        tableIndex: tableIndex,
+        instance: instance,
+        draggableIndex: tableIndex,
     }
 
     return (
         <div className={styles.table}>
-            {cardId == '' ? <></> : <Card key={'temp_' + tableIndex} {...propsToCard} />}
+            {instance == null ? <></> : <Card key={'temp_' + tableIndex} {...propsToCard} />}
         </div>
     );
 }

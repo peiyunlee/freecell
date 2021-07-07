@@ -12,12 +12,18 @@ class PokerCard implements IPokerCard {
   num: number;
   color: string;
   typeNum: number;
+  tableIndex: number;
+  tableType: string;
+  cardId: string;
 
-  constructor(cardId: string) {
+  constructor(cardId: string, tableType: string, tableIndex: number) {
     this.type = this.getType(cardId);
     this.typeNum = this.getTypeNum(this.type)
     this.num = this.getNumber(cardId);
     this.color = this.getColor();
+    this.tableIndex = tableIndex;
+    this.tableType = tableType;
+    this.cardId = cardId;
   }
 
   static numberIsPowerUp = (cardId1: string, num2: number): boolean => {

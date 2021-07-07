@@ -2,10 +2,11 @@ import styles from './style.scss';
 import logo from '../../assets/images/king_happy.png'
 import TempTableList from './TempTable/TempTableList'
 import OverTableList from './OverTable/OverTableList'
+import PokerCard from '../../lib/PokerCard';
 
 interface MyProps {
-    tempLayout: string[],
-    overLayout: string[][]
+    tempLayout: Array<PokerCard | null>,
+    overLayout: PokerCard[][]
     handleCardMove: (from: string, to: string, fromIndex: number, toIndex: number) => void,
     children?: React.ReactNode,
 }
