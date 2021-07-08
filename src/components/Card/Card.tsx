@@ -11,7 +11,7 @@ interface MyProps {
     draggingItemId: string,
     //draggingItemId 一定是 drag questionlayout's card
     draggableIndex: number,
-    cardChildren: PokerCard[]
+    cardChildren: (PokerCard | null)[]
     children?: React.ReactNode,
 }
 
@@ -61,7 +61,7 @@ function Card(props: MyProps) {
                 //is dragging card 
                 return (
                     <div ref={provided.innerRef} {...draggableProps} {...dragHandleProps} className={className} >
-                        {cardChildren.map((item, index) => { return <img key={"cardImg_" + index} src={images[item.cardId]} alt="" /> })}
+                        {cardChildren.map((item, index) => { return item == null ? <></> : <img key={"cardImg_" + index} src={images[item.cardId]} alt="" /> })}
                     </div>
                 )
             }}

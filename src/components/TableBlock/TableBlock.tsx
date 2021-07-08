@@ -6,21 +6,22 @@ import PokerCard from '../../lib/PokerCard';
 
 interface MyProps {
     tempLayout: Array<PokerCard | null>,
-    overLayout: PokerCard[][]
+    overLayout: PokerCard[][],
+    draggingItemId: string,
     children?: React.ReactNode,
 }
 
 function TableBlock(props: MyProps) {
-    const { tempLayout, overLayout } = props;
+    const { tempLayout, overLayout, draggingItemId } = props;
 
     return (
         <div className={styles.tableblock}>
-            <TempTableList tempLayout={tempLayout}/>
+            <TempTableList draggingItemId={draggingItemId} tempLayout={tempLayout} />
             <div className={styles.logo}>
                 <img src={logo} alt="" />
                 <h1>FREECELL</h1>
             </div>
-            <OverTableList overLayout={overLayout}/>
+            <OverTableList draggingItemId={draggingItemId} overLayout={overLayout} />
         </div>
     );
 }

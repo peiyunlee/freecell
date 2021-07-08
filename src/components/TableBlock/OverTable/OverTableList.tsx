@@ -3,12 +3,13 @@ import styles from '../../TableBlock/style.scss';
 import OverTable from './OverTable';
 
 interface MyProps {
-    overLayout: PokerCard[][]
+    overLayout: PokerCard[][],
+    draggingItemId: string,
     children?: React.ReactNode,
 }
 
 function OverTableList(props: MyProps) {
-    const { overLayout } = props
+    const { overLayout, draggingItemId } = props
 
     return (
         <div className={`${styles.tablelist} ${styles.tablelist_right}`}>
@@ -16,6 +17,7 @@ function OverTableList(props: MyProps) {
                 const propsToOverTable = {
                     overLayout: item,
                     tableIndex: index,
+                    draggingItemId: draggingItemId,
                 }
                 return <OverTable key={"overtable_" + index} {...propsToOverTable} />
             })}

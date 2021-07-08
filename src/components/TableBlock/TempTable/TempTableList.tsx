@@ -4,16 +4,18 @@ import TempTable from './TempTable';
 
 interface MyProps {
     tempLayout: Array<PokerCard | null>,
+    draggingItemId: string,
     children?: React.ReactNode,
 }
 
 function TempTableList(props: MyProps) {
-    const { tempLayout } = props;
+    const { tempLayout,draggingItemId } = props;
 
     const _renderTable = (item: PokerCard | null, index: number) => {
-        let propsToCard = {
+        const propsToCard = {
             tableIndex: index,
             instance: item,
+            draggingItemId: draggingItemId,
         }
         return <TempTable key={'temptable_' + index} {...propsToCard} />
     }

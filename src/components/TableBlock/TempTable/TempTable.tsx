@@ -5,19 +5,22 @@ import Card from '../../Card/Card';
 import PokerCard from '../../../lib/PokerCard';
 
 interface MyProps {
-    instance: PokerCard | null,
+    instance: (PokerCard | null),
+    draggingItemId: string,
     tableIndex: number,
     children?: React.ReactNode,
 }
 
 function TempTable(props: MyProps) {
-    const { instance, tableIndex } = props
+    const { instance, tableIndex, draggingItemId } = props
 
     //     canDrop: item => cardId == ''
 
     const propsToCard = {
         instance: instance,
         draggableIndex: tableIndex,
+        draggingItemId: draggingItemId,
+        cardChildren: [instance]
     }
 
     return (

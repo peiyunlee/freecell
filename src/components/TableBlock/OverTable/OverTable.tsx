@@ -11,11 +11,12 @@ import PokerCard from '../../../lib/PokerCard';
 interface MyProps {
     overLayout: PokerCard[],
     tableIndex: number,
+    draggingItemId: string,
     children?: React.ReactNode,
 }
 
 function OverTable(props: MyProps) {
-    const { overLayout, tableIndex } = props
+    const { overLayout, tableIndex, draggingItemId } = props
     const [tableImg, settableImg] = useState([S, H, D, C]);
 
     // const [{ }, dropRef] = useDrop({
@@ -46,6 +47,8 @@ function OverTable(props: MyProps) {
         const propsToCard = {
             instance: item,
             draggableIndex: index,
+            draggingItemId: draggingItemId,
+            cardChildren: [item]
         }
         return item.cardId == '' ? <></> : <Card key={'card_' + item} {...propsToCard} />
     }

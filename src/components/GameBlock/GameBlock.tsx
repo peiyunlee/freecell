@@ -40,10 +40,10 @@ function GameBlock() {
                 _setCardToQuestionLayout(index, from, fromIndex, toIndex)
                 break;
             case "TempLayout":
-                _setCardToTempLayout(from, fromIndex, toIndex)
+                _setCardToTempLayout(index, from, fromIndex, toIndex)
                 break;
             case "OverLayout":
-                _setCardToOverLayout(from, fromIndex, toIndex)
+                _setCardToOverLayout(index, from, fromIndex, toIndex)
                 break;
             default:
                 break;
@@ -55,15 +55,17 @@ function GameBlock() {
         let instance: PokerCard | undefined | null;
         switch (from) {
             case "QuestionLayout":
-                instance = newQuestionLayout[fromIndex].pop();
-                if (!instance) {
-                    return
-                }
-                instance.setNewTable("QuestionLayout", toIndex)
-                newQuestionLayout[toIndex].push(instance);
+                //要檢查Layout可不可以放
+                let cardlist = newQuestionLayout[fromIndex].slice(index)
+                newQuestionLayout[fromIndex] = newQuestionLayout[fromIndex].slice(0, index)
+                cardlist.forEach((item) => {
+                    item.setNewTable("QuestionLayout", toIndex)
+                    newQuestionLayout[toIndex].push(item);
+                })
                 dispatch(actions.setQuestionLayout(newQuestionLayout))
                 break;
             case "TempLayout":
+                //要檢查Lable是不是空 && 卡片是不是一張
                 let newTempLayout = tempLayout;
                 instance = newTempLayout[fromIndex];
                 if (instance == null) {
@@ -76,6 +78,7 @@ function GameBlock() {
                 dispatch(actions.setTempLayout(newTempLayout))
                 break;
             case "OverLayout":
+                //要檢查數字花色 && 卡片是不是一張
                 let newOverLayout: PokerCard[][] = overLayout;
                 instance = newOverLayout[fromIndex].pop();
                 if (!instance) {
@@ -92,11 +95,12 @@ function GameBlock() {
         }
     }
 
-    const _setCardToTempLayout = (from: string, fromIndex: number, toIndex: number) => {
+    const _setCardToTempLayout = (index: number, from: string, fromIndex: number, toIndex: number) => {
         let newTempLayout = tempLayout;
         let instance: PokerCard | undefined | null;
         switch (from) {
             case "QuestionLayout":
+                //要檢查是不是多個
                 let newQuestionLayout = questionLayout;
                 instance = newQuestionLayout[fromIndex].pop();
                 if (!instance) {
@@ -134,7 +138,7 @@ function GameBlock() {
         }
     }
 
-    const _setCardToOverLayout = (from: string, fromIndex: number, toIndex: number) => {
+    const _setCardToOverLayout = (index: number, from: string, fromIndex: number, toIndex: number) => {
         let newOverLayout = overLayout;
         let instance: PokerCard | undefined | null;
         switch (from) {
@@ -203,7 +207,7 @@ function GameBlock() {
 
     return (
         <DragDropContext onBeforeDragStart={(start: DragStart) => { _onDragStart(start) }} onDragEnd={(result: DropResult) => _handleOnDragEnd(result)}>
-            <TableBlock tempLayout={tempLayout} overLayout={overLayout} />
+            <TableBlock draggingItemId={draggingItemId} tempLayout={tempLayout} overLayout={overLayout} />
             <CardBlock draggingItemId={draggingItemId} questionLayout={questionLayout} />
         </DragDropContext>
     );
