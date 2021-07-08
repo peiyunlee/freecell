@@ -1,5 +1,5 @@
 import { questions } from '../../assets/question'
-import * as types from '../../constants/actionTypes';
+import * as types from '../../lib/constants/actionTypes';
 import { cardAction } from '../actions/cardActions'
 import PokerCard from '../../lib/PokerCard'
 

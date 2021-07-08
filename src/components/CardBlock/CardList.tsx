@@ -26,7 +26,7 @@ function CardList(props: MyProps) {
             draggableIndex: index,
             cardChildren: childChildren
         }
-        return <Card key={'card_' + item.cardId} {...propsToCard} />
+        return <Card key={`card_QuestionLayout_${tableIndex}_${index}`} {...propsToCard} />
     }
 
     //     canDrop: item => {

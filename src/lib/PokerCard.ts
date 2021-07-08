@@ -1,11 +1,5 @@
 import { IPokerCard } from './interface/IPokerCard'
-
-enum TYPE {
-  'S' = 0,
-  'H',
-  'D',
-  'C',
-}
+import { CARDTYPE } from './constants/enum/CARDTYPE'
 
 class PokerCard implements IPokerCard {
   type: string;
@@ -26,30 +20,6 @@ class PokerCard implements IPokerCard {
     this.cardId = cardId;
   }
 
-  // static numberIsPowerUp = (cardId1: string, num2: number): boolean => {
-  //   return parseInt(cardId1.slice(1)) === --num2
-  // }
-
-  // static numberIsPowerDown = (cardId1: string, num2: number): boolean => {
-  //   return parseInt(cardId1.slice(1)) === ++num2
-  // }
-
-  // static compareType = (type1: string, typeIndex2: number): boolean => {
-  //   return type1 === TYPE[typeIndex2]
-  // };
-
-  // static compareColor = (cardId1: string, color2: string): boolean => {
-  //   switch (cardId1.charAt(0)) {
-  //     case 'H' || 'D':
-  //       return 'RED' === color2;
-  //     case 'S' || 'C':
-  //       return 'BLACK' === color2;
-  //     default:
-  //       return true
-  //       break;
-  //   }
-  // };
-
   getType = (cardId: string): string => {
     return cardId.charAt(0);
   }
@@ -57,16 +27,16 @@ class PokerCard implements IPokerCard {
   getTypeNum = (type: string): number => {
     switch (type) {
       case 'S':
-        return TYPE.S;
+        return CARDTYPE.S;
         break;
       case 'H':
-        return TYPE.H;
+        return CARDTYPE.H;
         break;
       case 'D':
-        return TYPE.D;
+        return CARDTYPE.D;
         break;
       case 'C':
-        return TYPE.C;
+        return CARDTYPE.C;
         break;
       default:
         return 0

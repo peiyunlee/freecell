@@ -9,7 +9,7 @@ interface MyProps {
 }
 
 function TempTableList(props: MyProps) {
-    const { tempLayout,draggingItemId } = props;
+    const { tempLayout, draggingItemId } = props;
 
     const _renderTable = (item: PokerCard | null, index: number) => {
         const propsToCard = {
@@ -17,7 +17,7 @@ function TempTableList(props: MyProps) {
             instance: item,
             draggingItemId: draggingItemId,
         }
-        return <TempTable key={'temptable_' + index} {...propsToCard} />
+        return <TempTable key={`temptable_${index}`} {...propsToCard} />
     }
 
     return (

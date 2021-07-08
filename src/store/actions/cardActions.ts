@@ -1,4 +1,4 @@
-import * as types from '../../constants/actionTypes';
+import * as types from '../../lib/constants/actionTypes';
 import PokerCard from '../../lib/PokerCard';
 
 interface SetQuestionLayoutAction {

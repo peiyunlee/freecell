@@ -24,10 +24,10 @@ function TempTable(props: MyProps) {
     }
 
     return (
-        <Droppable droppableId={`table_TempLayout_${tableIndex}`}>
+        <Droppable droppableId={`droppabletable_TempLayout_${tableIndex}`}>
             {(provided) => (
                 <div className={styles.table} {...provided.droppableProps} ref={provided.innerRef}>
-                    {instance == null ? <></> : <Card key={'temp_' + tableIndex} {...propsToCard} />}
+                    {instance == null ? <></> : <Card key={`card_TempLayout_${tableIndex}`} {...propsToCard} />}
                     <span style={{ display: 'none' }}>{provided.placeholder}</span>
                 </div>
             )}

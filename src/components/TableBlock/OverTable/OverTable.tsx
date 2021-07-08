@@ -50,11 +50,11 @@ function OverTable(props: MyProps) {
             draggingItemId: draggingItemId,
             cardChildren: [item]
         }
-        return item.cardId == '' ? <></> : <Card key={'card_' + item} {...propsToCard} />
+        return item.cardId == '' ? <></> : <Card key={`card_OverLayout_${tableIndex}_${index}`} {...propsToCard} />
     }
 
     return (
-        <Droppable droppableId={`table_OverLayout_${tableIndex}`}>
+        <Droppable droppableId={`droppabletable_OverLayout_${tableIndex}`}>
             {(provided) => (
                 <div className={styles.table} {...provided.droppableProps} ref={provided.innerRef}>
                     <img className={styles.tableBg} src={tableImg[tableIndex]} alt="" />

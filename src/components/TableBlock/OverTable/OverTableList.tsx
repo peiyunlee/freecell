@@ -19,7 +19,7 @@ function OverTableList(props: MyProps) {
                     tableIndex: index,
                     draggingItemId: draggingItemId,
                 }
-                return <OverTable key={"overtable_" + index} {...propsToOverTable} />
+                return <OverTable key={`overtable_${index}`} {...propsToOverTable} />
             })}
         </div>
     );

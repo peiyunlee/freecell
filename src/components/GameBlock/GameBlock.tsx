@@ -6,6 +6,7 @@ import * as actions from '../../store/actions/cardActions';
 import TableBlock from '../../components/TableBlock/TableBlock';
 import CardBlock from '../../components/CardBlock/CardBlock';
 import PokerCard from '../../lib/PokerCard';
+import { CARDTYPE } from '../../lib/constants/enum/CARDTYPE';
 
 function GameBlock() {
     const store = useSelector((store: storeTypes) => store.cardReducer)
@@ -13,41 +14,109 @@ function GameBlock() {
 
     useEffect(() => {
         setquestionLayout(store.questionLayout)
-        console.log(store.questionLayout)
     }, [store.questionLayout])
 
     const [tempLayout, settempLayout] = useState<Array<PokerCard | null>>(store.tempLayout)
 
     useEffect(() => {
         settempLayout(store.tempLayout)
-        console.log(store.tempLayout)
     }, [store.tempLayout])
 
     const [overLayout, setoverLayout] = useState<PokerCard[][]>(store.overLayout)
 
     useEffect(() => {
         setoverLayout(store.overLayout)
-        console.log(store.overLayout)
     }, [store.overLayout])
 
     const [draggingItemId, setdraggingItemId] = useState<string>('');
 
     const dispatch = useDispatch();
 
-    const handleCardMove = (index: number, from: string, to: string, fromIndex: number, toIndex: number) => {
+    const _handleCardMove = (index: number, from: string, to: string, fromIndex: number, toIndex: number) => {
         switch (to) {
             case "QuestionLayout":
+                if (!(_isCardColorMatch(index, from, to, fromIndex, toIndex)
+                    && _isCardNumberIncreaseByOne(index, from, to, fromIndex, toIndex)))
+                    return;
                 _setCardToQuestionLayout(index, from, fromIndex, toIndex)
                 break;
             case "TempLayout":
-                _setCardToTempLayout(index, from, fromIndex, toIndex)
+                if (!(_isCardLastOne(index, from, fromIndex)
+                    && tempLayout[toIndex] == null))
+                    return;
+                _setCardToTempLayout(from, fromIndex, toIndex)
                 break;
             case "OverLayout":
-                _setCardToOverLayout(index, from, fromIndex, toIndex)
+                if (!(_isCardTypeMatch(index, from, to, fromIndex, toIndex)
+                    && _isCardNumberDecreaseByOne(index, from, to, fromIndex, toIndex)
+                    && _isCardLastOne(index, from, fromIndex)))
+                    return;
+                _setCardToOverLayout(from, fromIndex, toIndex)
                 break;
             default:
                 break;
         }
+    }
+
+    const _isCardLastOne = (index: number, from: string, fromIndex: number): boolean => {
+        if (from != 'QuestionLayout') return true;
+
+        return index == questionLayout[fromIndex].length - 1;
+    }
+
+    const _isCardColorMatch = (index: number, from: string, to: string, fromIndex: number, toIndex: number): boolean => {
+        let item;
+        if (to != 'QuestionLayout') return true;
+        if (questionLayout[toIndex].length == 0) return true;
+
+        if (from == 'QuestionLayout') item = questionLayout[fromIndex][index];
+        else if (from == 'TempLayout') item = tempLayout[fromIndex];
+        else item = overLayout[fromIndex][index];
+
+        if (item == null) return true;
+        return !(item.color == questionLayout[toIndex][questionLayout[toIndex].length - 1].color)
+    }
+
+    const _isCardNumberDecreaseByOne = (index: number, from: string, to: string, fromIndex: number, toIndex: number): boolean => {
+        //from - 1 = to
+        if (to != 'OverLayout') return true;
+
+        let item;
+        if (from == 'QuestionLayout') item = questionLayout[fromIndex][index];
+        else if (from == 'TempLayout') item = tempLayout[fromIndex];
+        else item = overLayout[fromIndex][index];
+
+        if (item == null) return true;
+
+        if (overLayout[toIndex].length == 0) return item.num == 1;
+        return item.num - 1 == overLayout[toIndex][overLayout[toIndex].length - 1].num
+    }
+
+    const _isCardNumberIncreaseByOne = (index: number, from: string, to: string, fromIndex: number, toIndex: number): boolean => {
+        //from + 1 = to
+        if (to != 'QuestionLayout') return true;
+        if (questionLayout[toIndex].length == 0) return true;
+
+        let item;
+        if (from == 'QuestionLayout') item = questionLayout[fromIndex][index];
+        else if (from == 'TempLayout') item = tempLayout[fromIndex];
+        else item = overLayout[fromIndex][index];
+
+        if (item == null) return true;
+        return item.num + 1 == questionLayout[toIndex][questionLayout[toIndex].length - 1].num
+    }
+
+    const _isCardTypeMatch = (index: number, from: string, to: string, fromIndex: number, toIndex: number): boolean => {
+        if (to != 'OverLayout') return true;
+
+        let item;
+        if (from == 'QuestionLayout') item = questionLayout[fromIndex][index];
+        else if (from == 'TempLayout') item = tempLayout[fromIndex];
+        else item = overLayout[fromIndex][index];
+
+        if (item == null) return true;
+        if (overLayout[toIndex].length == 0) return item.type == CARDTYPE[toIndex];
+        return item.type == overLayout[toIndex][overLayout[toIndex].length - 1].type;
     }
 
     const _setCardToQuestionLayout = (index: number, from: string, fromIndex: number, toIndex: number) => {
@@ -55,7 +124,6 @@ function GameBlock() {
         let instance: PokerCard | undefined | null;
         switch (from) {
             case "QuestionLayout":
-                //要檢查Layout可不可以放
                 let cardlist = newQuestionLayout[fromIndex].slice(index)
                 newQuestionLayout[fromIndex] = newQuestionLayout[fromIndex].slice(0, index)
                 cardlist.forEach((item) => {
@@ -65,7 +133,6 @@ function GameBlock() {
                 dispatch(actions.setQuestionLayout(newQuestionLayout))
                 break;
             case "TempLayout":
-                //要檢查Lable是不是空 && 卡片是不是一張
                 let newTempLayout = tempLayout;
                 instance = newTempLayout[fromIndex];
                 if (instance == null) {
@@ -78,7 +145,6 @@ function GameBlock() {
                 dispatch(actions.setTempLayout(newTempLayout))
                 break;
             case "OverLayout":
-                //要檢查數字花色 && 卡片是不是一張
                 let newOverLayout: PokerCard[][] = overLayout;
                 instance = newOverLayout[fromIndex].pop();
                 if (!instance) {
@@ -95,12 +161,11 @@ function GameBlock() {
         }
     }
 
-    const _setCardToTempLayout = (index: number, from: string, fromIndex: number, toIndex: number) => {
+    const _setCardToTempLayout = (from: string, fromIndex: number, toIndex: number) => {
         let newTempLayout = tempLayout;
         let instance: PokerCard | undefined | null;
         switch (from) {
             case "QuestionLayout":
-                //要檢查是不是多個
                 let newQuestionLayout = questionLayout;
                 instance = newQuestionLayout[fromIndex].pop();
                 if (!instance) {
@@ -127,7 +192,7 @@ function GameBlock() {
                 if (!instance) {
                     return
                 }
-                instance.setNewTable("OverLayout", toIndex)
+                instance.setNewTable("TempLayout", toIndex)
                 newTempLayout[toIndex] = instance;
                 dispatch(actions.setOverLayout(newOverLayout))
                 dispatch(actions.setTempLayout(newTempLayout))
@@ -138,7 +203,7 @@ function GameBlock() {
         }
     }
 
-    const _setCardToOverLayout = (index: number, from: string, fromIndex: number, toIndex: number) => {
+    const _setCardToOverLayout = (from: string, fromIndex: number, toIndex: number) => {
         let newOverLayout = overLayout;
         let instance: PokerCard | undefined | null;
         switch (from) {
@@ -180,24 +245,24 @@ function GameBlock() {
     }
 
     const _handleOnDragEnd = (result: DropResult) => {
-        if (result.draggableId.split('_')[1] == 'QuestionLayout')
-            setdraggingItemId('');
+        setdraggingItemId('');
 
-        //result.destination.droppableId = {`table_${instance.tableType}_${instance.tableIndex}`}
-        // result.draggableId={`card_${instance.tableType}_${instance.tableIndex}_${index}`}
         if (!result.destination) {
             return
         }
 
+        //result.destination.droppableId = {`table_${instance.tableType}_${instance.tableIndex}`}
+        // result.draggableId={`card_${instance.tableType}_${instance.tableIndex}_${index}`}
         const draggableId = result.draggableId.split('_');
         const droppableId = result.destination.droppableId.split('_');
 
-        handleCardMove(
+        _handleCardMove(
             parseInt(draggableId[3]),
             draggableId[1],
             droppableId[1],
             parseInt(draggableId[2]),
-            parseInt(droppableId[2]));
+            parseInt(droppableId[2])
+        );
     }
 
     const _onDragStart = (start: DragStart) => {

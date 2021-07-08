@@ -20,8 +20,8 @@ function Card(props: MyProps) {
 
     return instance == null ? (<></>
     ) : (
-        <Draggable key={`card_${instance.tableType}_${instance.tableIndex}_${draggableIndex}`}
-            draggableId={`card_${instance.tableType}_${instance.tableIndex}_${draggableIndex}`}
+        <Draggable key={`draggablecard_${instance.tableType}_${instance.tableIndex}_${draggableIndex}`}
+            draggableId={`draggablecard_${instance.tableType}_${instance.tableIndex}_${draggableIndex}`}
             index={draggableIndex} >
             {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => {
                 let className = styles.card;
@@ -31,7 +31,7 @@ function Card(props: MyProps) {
                 if (provided.dragHandleProps)
                     dragHandleProps = provided.dragHandleProps;
 
-                const draggableId = "card".concat("_", instance.tableType).concat("_", instance.tableIndex.toString()).concat("_", draggableIndex.toString())
+                const draggableId = "draggablecard".concat("_", instance.tableType).concat("_", instance.tableIndex.toString()).concat("_", draggableIndex.toString())
 
                 if (!snapshot.isDragging) {
                     style = { ...style, transform: 'none' };
