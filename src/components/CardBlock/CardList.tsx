@@ -6,13 +6,12 @@ import PokerCard from '../../lib/PokerCard';
 
 interface MyProps {
     questionLayoutColumn: PokerCard[],
-    handleCardMove: (from: string, to: string, fromIndex: number, toIndex: number) => void,
     tableIndex: number,
     children?: React.ReactNode,
 }
 
 function CardList(props: MyProps) {
-    const { questionLayoutColumn, tableIndex, handleCardMove } = props;
+    const { questionLayoutColumn, tableIndex } = props;
 
     const _renderCard = (item: PokerCard, index: number) => {
         const propsToCard = {
@@ -22,15 +21,6 @@ function CardList(props: MyProps) {
         return <Card key={'card_' + item.cardId} {...propsToCard} />
     }
 
-    // const [{ }, dropRef] = useDrop({
-    //     accept: 'card',
-    //     drop: (item: { tableIndex: number, table: string, pokerCard: PokerCard }) => {
-    //         const from = item.table;
-    //         const to = "QuestionLayout";
-    //         const fromIndex = item.tableIndex;
-    //         const toIndex = tableIndex;
-    //         handleCardMove(from, to, fromIndex, toIndex);
-    //     },
     //     canDrop: item => {
     //         console.log(item.pokerCard.num)
     //         const tableRight = !(item.table === 'QuestionLayout' && item.tableIndex === tableIndex);
@@ -41,8 +31,6 @@ function CardList(props: MyProps) {
     //             numberRight = PokerCard.numberIsPowerDown(questionLayoutColumn[questionLayoutColumn.length - 1], item.pokerCard.num)
     //         }
     //         return tableRight && !colorRight && numberRight
-    //     }
-    // });
 
     // const canDrop = () => {
     //     const tableRight = !(item.table === 'QuestionLayout' && item.tableIndex === tableIndex);
@@ -56,7 +44,7 @@ function CardList(props: MyProps) {
     // }
 
     return (
-        <Droppable droppableId={`cardlist_${tableIndex}`}>
+        <Droppable droppableId={`table_QuestionLayout_${tableIndex}`}>
             {(provided) => (
                 <div className={styles.cardlist} {...provided.droppableProps} ref={provided.innerRef}>
                     {questionLayoutColumn.map((item: PokerCard, index: number) => { return _renderCard(item, index) })}

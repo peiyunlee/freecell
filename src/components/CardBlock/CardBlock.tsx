@@ -4,17 +4,15 @@ import PokerCard from '../../lib/PokerCard';
 
 interface MyProps {
     questionLayout: PokerCard[][],
-    handleCardMove: (from: string, to: string, fromIndex: number, toIndex: number) => void,
     children?: React.ReactNode,
 }
 
 function CardBlock(props: MyProps) {
-    const { questionLayout, handleCardMove } = props;
+    const { questionLayout } = props;
 
     const _renderCardList = (item: PokerCard[], index: number) => {
         const propsToCardList = {
             questionLayoutColumn: item,
-            handleCardMove,
             tableIndex: index,
         }
         return <CardList {...propsToCardList} key={"cardlist_" + index} />

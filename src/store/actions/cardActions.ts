@@ -7,7 +7,7 @@ interface SetQuestionLayoutAction {
 }
 
 interface SetTempLayoutAction {
-    tempLayout: PokerCard[];
+    tempLayout: (PokerCard | null)[];
     type: types.SET_TEMPLAYOUT;
 }
 
@@ -21,7 +21,7 @@ export const setQuestionLayout = (questionLayout: PokerCard[][]): SetQuestionLay
     type: types.SET_QUESTIONLAYOUT,
 });
 
-export const setTempLayout = (tempLayout: PokerCard[]): SetTempLayoutAction => ({
+export const setTempLayout = (tempLayout: (PokerCard | null)[]): SetTempLayoutAction => ({
     tempLayout: tempLayout,
     type: types.SET_TEMPLAYOUT,
 });

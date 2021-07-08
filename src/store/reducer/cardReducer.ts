@@ -9,8 +9,8 @@ interface StoreState {
     overLayout: PokerCard[][],
 }
 
-function questionsNewPokerCard(questions: string[][]) {
-    let result: PokerCard[][] = [[]];
+function questionsNewPokerCardInstance(questions: string[][]) {
+    let result: PokerCard[][] = [];
     questions.forEach((item, i) => {
         result.push([])
         item.forEach((item, j) => {
@@ -21,7 +21,7 @@ function questionsNewPokerCard(questions: string[][]) {
 }
 
 const initialState: StoreState = {
-    questionLayout: questionsNewPokerCard(questions[0]),
+    questionLayout: questionsNewPokerCardInstance(questions[0]),
     tempLayout: [null, null, null, null],
     overLayout: [[], [], [], []],
 };

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Droppable } from 'react-beautiful-dnd';
 import styles from '../../TableBlock/style.scss';
 import Card from '../../Card/Card';
 import C from '../../../assets/images/C.png'
@@ -10,12 +11,11 @@ import PokerCard from '../../../lib/PokerCard';
 interface MyProps {
     overLayout: PokerCard[],
     tableIndex: number,
-    handleCardMove: (from: string, to: string, fromIndex: number, toIndex: number) => void,
     children?: React.ReactNode,
 }
 
 function OverTable(props: MyProps) {
-    const { overLayout, tableIndex, handleCardMove } = props
+    const { overLayout, tableIndex } = props
     const [tableImg, settableImg] = useState([S, H, D, C]);
 
     // const [{ }, dropRef] = useDrop({
@@ -51,10 +51,15 @@ function OverTable(props: MyProps) {
     }
 
     return (
-        <div className={styles.table}>
-            <img className={styles.tableBg} src={tableImg[tableIndex]} alt="" />
-            {overLayout.map((item: PokerCard, index: number) => { return _renderCardList(item, index) })}
-        </div>
+        <Droppable droppableId={`table_OverLayout_${tableIndex}`}>
+            {(provided) => (
+                <div className={styles.table} {...provided.droppableProps} ref={provided.innerRef}>
+                    <img className={styles.tableBg} src={tableImg[tableIndex]} alt="" />
+                    {overLayout.map((item: PokerCard, index: number) => { return _renderCardList(item, index) })}
+                    <span style={{ display: 'none' }}>{provided.placeholder}</span>
+                </div>
+            )}
+        </Droppable>
     );
 }
 

@@ -32,10 +32,10 @@ function GameBlock() {
 
     const dispatch = useDispatch();
 
-    const handleCardMove = (from: string, to: string, fromIndex: number, toIndex: number) => {
+    const handleCardMove = (index: number, from: string, to: string, fromIndex: number, toIndex: number) => {
         switch (to) {
             case "QuestionLayout":
-                _setCardToQuestionLayout(from, fromIndex, toIndex)
+                _setCardToQuestionLayout(index, from, fromIndex, toIndex)
                 break;
             case "TempLayout":
                 _setCardToTempLayout(from, fromIndex, toIndex)
@@ -48,110 +48,153 @@ function GameBlock() {
         }
     }
 
-    const _setCardToQuestionLayout = (from: string, fromIndex: number, toIndex: number) => {
-        let newQuestionLayout: PokerCard[][] = questionLayout;
-        // let cardId: string | undefined;
-        // switch (from) {
-        //     case "QuestionLayout":
-        //         cardId = newQuestionLayout[fromIndex].pop();
-        //         if (cardId) {
-        //             newQuestionLayout[toIndex].push(cardId);
-        //             dispatch(actions.setQuestionLayout(newQuestionLayout))
-        //         }
-        //         break;
-        //     case "TempLayout":
-        //         let newTempLayout: PokerCard[] = tempLayout;
-        //         newQuestionLayout[toIndex].push(newTempLayout[fromIndex]);
-        //         newTempLayout[fromIndex] = '';
-        //         dispatch(actions.setQuestionLayout(newQuestionLayout))
-        //         dispatch(actions.setTempLayout(newTempLayout))
-        //         break;
-        //     case "OverLayout":
-        //         let newOverLayout: string[][] = overLayout;
-        //         cardId = newOverLayout[fromIndex].pop();
-        //         if (cardId) {
-        //             newQuestionLayout[toIndex].push(cardId);
-        //             dispatch(actions.setQuestionLayout(newQuestionLayout))
-        //             dispatch(actions.setOverLayout(newOverLayout))
-        //         }
-        //         break;
-        //     default:
-        //         break;
-        // }
+    const _setCardToQuestionLayout = (index: number, from: string, fromIndex: number, toIndex: number) => {
+        let newQuestionLayout = questionLayout;
+        let instance: PokerCard | undefined | null;
+        switch (from) {
+            case "QuestionLayout":
+                instance = newQuestionLayout[fromIndex].pop();
+                if (!instance) {
+                    return
+                }
+                instance.setNewTable("QuestionLayout", toIndex)
+                newQuestionLayout[toIndex].push(instance);
+                dispatch(actions.setQuestionLayout(newQuestionLayout))
+                break;
+            case "TempLayout":
+                let newTempLayout = tempLayout;
+                instance = newTempLayout[fromIndex];
+                if (instance == null) {
+                    return
+                }
+                instance.setNewTable("QuestionLayout", toIndex)
+                newQuestionLayout[toIndex].push(instance);
+                newTempLayout[fromIndex] = null;
+                dispatch(actions.setQuestionLayout(newQuestionLayout))
+                dispatch(actions.setTempLayout(newTempLayout))
+                break;
+            case "OverLayout":
+                let newOverLayout: PokerCard[][] = overLayout;
+                instance = newOverLayout[fromIndex].pop();
+                if (!instance) {
+                    return
+                }
+                instance.setNewTable("QuestionLayout", toIndex)
+                newQuestionLayout[toIndex].push(instance);
+                dispatch(actions.setQuestionLayout(newQuestionLayout))
+                dispatch(actions.setOverLayout(newOverLayout))
+                break;
+            default:
+                return
+                break;
+        }
     }
 
     const _setCardToTempLayout = (from: string, fromIndex: number, toIndex: number) => {
-        // let newTempLayout: string[] = tempLayout;
-        // let cardId: string | undefined;
-        // switch (from) {
-        //     case "QuestionLayout":
-        //         let newQuestionLayout: string[][] = questionLayout;
-        //         cardId = newQuestionLayout[fromIndex].pop();
-        //         if (cardId) {
-        //             newTempLayout[toIndex] = cardId;
-        //             dispatch(actions.setQuestionLayout(newQuestionLayout))
-        //             dispatch(actions.setTempLayout(newTempLayout))
-        //         }
-        //         break;
-        //     case "TempLayout":
-        //         newTempLayout[toIndex] = newTempLayout[fromIndex];
-        //         newTempLayout[fromIndex] = '';
-        //         dispatch(actions.setTempLayout(newTempLayout))
-        //         break;
-        //     case "OverLayout":
-        //         let newOverLayout: string[][] = overLayout;
-        //         cardId = newOverLayout[fromIndex].pop();
-        //         if (cardId) {
-        //             newTempLayout[toIndex] = cardId;
-        //             dispatch(actions.setOverLayout(newOverLayout))
-        //             dispatch(actions.setTempLayout(newTempLayout))
-        //         }
-        //         break;
-        //     default:
-        //         break;
-        // }
+        let newTempLayout = tempLayout;
+        let instance: PokerCard | undefined | null;
+        switch (from) {
+            case "QuestionLayout":
+                let newQuestionLayout = questionLayout;
+                instance = newQuestionLayout[fromIndex].pop();
+                if (!instance) {
+                    return
+                }
+                instance.setNewTable("TempLayout", toIndex)
+                newTempLayout[toIndex] = instance;
+                dispatch(actions.setQuestionLayout(newQuestionLayout))
+                dispatch(actions.setTempLayout(newTempLayout))
+                break;
+            case "TempLayout":
+                instance = newTempLayout[fromIndex];
+                if (instance == null) {
+                    return
+                }
+                instance.setNewTable("TempLayout", toIndex)
+                newTempLayout[toIndex] = instance;
+                newTempLayout[fromIndex] = null;
+                dispatch(actions.setTempLayout(newTempLayout))
+                break;
+            case "OverLayout":
+                let newOverLayout = overLayout;
+                instance = newOverLayout[fromIndex].pop();
+                if (!instance) {
+                    return
+                }
+                instance.setNewTable("OverLayout", toIndex)
+                newTempLayout[toIndex] = instance;
+                dispatch(actions.setOverLayout(newOverLayout))
+                dispatch(actions.setTempLayout(newTempLayout))
+                break;
+            default:
+                return
+                break;
+        }
     }
 
     const _setCardToOverLayout = (from: string, fromIndex: number, toIndex: number) => {
-        // let newOverLayout: PokerCard[][] = overLayout;
-        // let cardId: string | undefined;
-        // switch (from) {
-        //     case "QuestionLayout":
-        //         let newQuestionLayout: PokerCard[][] = questionLayout;
-        //         cardId = newQuestionLayout[fromIndex].pop();
-        //         if (cardId) {
-        //             newOverLayout[toIndex].push(cardId);
-        //             dispatch(actions.setOverLayout(newOverLayout))
-        //             dispatch(actions.setQuestionLayout(newQuestionLayout))
-        //         }
-        //         break;
-        //     case "TempLayout":
-        //         let newTempLayout: PokerCard[] = tempLayout;
-        //         newOverLayout[toIndex].push(newTempLayout[fromIndex]);
-        //         newTempLayout[fromIndex] = '';
-        //         dispatch(actions.setOverLayout(newOverLayout))
-        //         dispatch(actions.setTempLayout(newTempLayout))
-        //         break;
-        //     case "OverLayout":
-        //         cardId = newOverLayout[fromIndex].pop();
-        //         if (cardId) {
-        //             newOverLayout[toIndex].push(cardId);
-        //             dispatch(actions.setOverLayout(newOverLayout))
-        //         }
-        //         break;
-        //     default:
-        //         break;
-        // }
+        let newOverLayout = overLayout;
+        let instance: PokerCard | undefined | null;
+        switch (from) {
+            case "QuestionLayout":
+                let newQuestionLayout = questionLayout;
+                instance = newQuestionLayout[fromIndex].pop();
+                if (!instance) {
+                    return
+                }
+                instance.setNewTable("OverLayout", toIndex)
+                newOverLayout[toIndex].push(instance);
+                dispatch(actions.setOverLayout(newOverLayout))
+                dispatch(actions.setQuestionLayout(newQuestionLayout))
+                break;
+            case "TempLayout":
+                let newTempLayout = tempLayout;
+                instance = newTempLayout[fromIndex];
+                if (instance == null) {
+                    return
+                }
+                instance.setNewTable("OverLayout", toIndex)
+                newOverLayout[toIndex].push(instance);
+                newTempLayout[fromIndex] = null;
+                dispatch(actions.setOverLayout(newOverLayout))
+                dispatch(actions.setTempLayout(newTempLayout))
+                break;
+            case "OverLayout":
+                instance = newOverLayout[fromIndex].pop();
+                if (!instance) {
+                    return
+                }
+                instance.setNewTable("OverLayout", toIndex)
+                newOverLayout[toIndex].push(instance);
+                dispatch(actions.setOverLayout(newOverLayout))
+                break;
+            default:
+                break;
+        }
     }
 
     const _handleOnDragEnd = (result: DropResult) => {
-        console.log(result)
+        //result.destination.droppableId = {`table_${instance.tableType}_${instance.tableIndex}`}
+        // result.draggableId={`card_${instance.tableType}_${instance.tableIndex}_${index}`}
+        if (!result.destination) {
+            return
+        }
+
+        const draggableId = result.draggableId.split('_');
+        const droppableId = result.destination.droppableId.split('_');
+
+        handleCardMove(
+            parseInt(draggableId[3]),
+            draggableId[1],
+            droppableId[1],
+            parseInt(draggableId[2]),
+            parseInt(droppableId[2]));
     }
 
     return (
         <DragDropContext onDragEnd={(result: DropResult) => _handleOnDragEnd(result)}>
-            <TableBlock tempLayout={tempLayout} overLayout={overLayout} handleCardMove={handleCardMove} />
-            <CardBlock questionLayout={questionLayout} handleCardMove={handleCardMove} />
+            <TableBlock tempLayout={tempLayout} overLayout={overLayout} />
+            <CardBlock questionLayout={questionLayout} />
         </DragDropContext>
     );
 }

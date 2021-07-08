@@ -9,12 +9,12 @@ enum TYPE {
 
 class PokerCard implements IPokerCard {
   type: string;
+  typeNum: number;
   num: number;
   color: string;
-  typeNum: number;
-  tableIndex: number;
-  tableType: string;
   cardId: string;
+  tableType: string;
+  tableIndex: number;
 
   constructor(cardId: string, tableType: string, tableIndex: number) {
     this.type = this.getType(cardId);
@@ -26,29 +26,29 @@ class PokerCard implements IPokerCard {
     this.cardId = cardId;
   }
 
-  static numberIsPowerUp = (cardId1: string, num2: number): boolean => {
-    return parseInt(cardId1.slice(1)) === --num2
-  }
+  // static numberIsPowerUp = (cardId1: string, num2: number): boolean => {
+  //   return parseInt(cardId1.slice(1)) === --num2
+  // }
 
-  static numberIsPowerDown = (cardId1: string, num2: number): boolean => {
-    return parseInt(cardId1.slice(1)) === ++num2
-  }
+  // static numberIsPowerDown = (cardId1: string, num2: number): boolean => {
+  //   return parseInt(cardId1.slice(1)) === ++num2
+  // }
 
-  static compareType = (type1: string, typeIndex2: number): boolean => {
-    return type1 === TYPE[typeIndex2]
-  };
+  // static compareType = (type1: string, typeIndex2: number): boolean => {
+  //   return type1 === TYPE[typeIndex2]
+  // };
 
-  static compareColor = (cardId1: string, color2: string): boolean => {
-    switch (cardId1.charAt(0)) {
-      case 'H' || 'D':
-        return 'RED' === color2;
-      case 'S' || 'C':
-        return 'BLACK' === color2;
-      default:
-        return true
-        break;
-    }
-  };
+  // static compareColor = (cardId1: string, color2: string): boolean => {
+  //   switch (cardId1.charAt(0)) {
+  //     case 'H' || 'D':
+  //       return 'RED' === color2;
+  //     case 'S' || 'C':
+  //       return 'BLACK' === color2;
+  //     default:
+  //       return true
+  //       break;
+  //   }
+  // };
 
   getType = (cardId: string): string => {
     return cardId.charAt(0);
@@ -88,6 +88,11 @@ class PokerCard implements IPokerCard {
         return '';
         break;
     }
+  }
+
+  setNewTable = (tableType: string, tableIndex: number) => {
+    this.tableType = tableType;
+    this.tableIndex = tableIndex;
   }
 }
 
