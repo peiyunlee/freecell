@@ -6,17 +6,25 @@ import PokerCard from '../../lib/PokerCard';
 
 interface MyProps {
     questionLayoutColumn: PokerCard[],
+    draggingItemId: string,
     tableIndex: number,
     children?: React.ReactNode,
 }
 
 function CardList(props: MyProps) {
-    const { questionLayoutColumn, tableIndex } = props;
+    const { questionLayoutColumn, tableIndex, draggingItemId } = props;
 
     const _renderCard = (item: PokerCard, index: number) => {
+        let childChildren: PokerCard[] = []
+        if (tableIndex == parseInt(draggingItemId.split('_')[2])
+            && index == parseInt(draggingItemId.split('_')[3])) {
+            childChildren = questionLayoutColumn.slice(index);
+        }
         const propsToCard = {
             instance: item,
+            draggingItemId: draggingItemId,
             draggableIndex: index,
+            cardChildren: childChildren
         }
         return <Card key={'card_' + item.cardId} {...propsToCard} />
     }

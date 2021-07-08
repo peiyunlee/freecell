@@ -1,7 +1,17 @@
-.cardImg {
+.card {
   z-index: 1;
   width: 95px;
+  height: 145px;
+  display: grid;
+  grid-auto-rows: 25px;
+  justify-content: center;
+  img {
+    width: 100%;
+  }
 }
-.cardImg_drag {
+.dragcard_children {
+  z-index: 1;
+  width: 95px;
+  height: 145px;
   display: none;
 }

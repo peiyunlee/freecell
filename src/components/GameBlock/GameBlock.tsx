@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { DragDropContext, DropResult } from 'react-beautiful-dnd'
+import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd'
 import { storeTypes } from '../../store/configureStore';
 import * as actions from '../../store/actions/cardActions';
 import TableBlock from '../../components/TableBlock/TableBlock';
@@ -29,6 +29,8 @@ function GameBlock() {
         setoverLayout(store.overLayout)
         console.log(store.overLayout)
     }, [store.overLayout])
+
+    const [draggingItemId, setdraggingItemId] = useState<string>('');
 
     const dispatch = useDispatch();
 
@@ -174,6 +176,9 @@ function GameBlock() {
     }
 
     const _handleOnDragEnd = (result: DropResult) => {
+        if (result.draggableId.split('_')[1] == 'QuestionLayout')
+            setdraggingItemId('');
+
         //result.destination.droppableId = {`table_${instance.tableType}_${instance.tableIndex}`}
         // result.draggableId={`card_${instance.tableType}_${instance.tableIndex}_${index}`}
         if (!result.destination) {
@@ -191,10 +196,15 @@ function GameBlock() {
             parseInt(droppableId[2]));
     }
 
+    const _onDragStart = (start: DragStart) => {
+        if (start.draggableId.split('_')[1] == 'QuestionLayout')
+            setdraggingItemId(start.draggableId);
+    }
+
     return (
-        <DragDropContext onDragEnd={(result: DropResult) => _handleOnDragEnd(result)}>
+        <DragDropContext onBeforeDragStart={(start: DragStart) => { _onDragStart(start) }} onDragEnd={(result: DropResult) => _handleOnDragEnd(result)}>
             <TableBlock tempLayout={tempLayout} overLayout={overLayout} />
-            <CardBlock questionLayout={questionLayout} />
+            <CardBlock draggingItemId={draggingItemId} questionLayout={questionLayout} />
         </DragDropContext>
     );
 }
