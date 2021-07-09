@@ -29,18 +29,4 @@
   grid: auto / repeat(4,120px);
   column-gap: 15px;
   align-items: center;
-
-  button{
-    width: 120px;
-    height: 40px;
-    background-color: #222222;
-    border-radius: 50px;
-    color: white;
-    border: none;
-
-    &:hover{
-        background-color: #FFB53E;
-        
-    }
-  }
 }

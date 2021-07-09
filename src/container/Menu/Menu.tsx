@@ -1,7 +1,36 @@
+import { useDispatch } from 'react-redux';
+import * as actions from '../../store/actions/cardActions';
 import styles from './style.scss';
 import info from '../../assets/images/info.png'
+import Button from '../../components/Button/Button';
+import { restartGame } from '../../store/actions/cardActions';
 
-function Menu() {
+interface MyProps {
+    setModalShow: (modalType: number | null) => void,
+    children?: React.ReactNode,
+}
+
+function Menu(props: MyProps) {
+    const { setModalShow } = props;
+
+    const dispatch = useDispatch();
+
+    const clickNewGame = () => {
+        setModalShow(2);
+    }
+
+    const clickRestart = () => {
+        dispatch(actions.restartGame());
+    }
+
+    const clickHint = () => {
+        //
+    }
+
+    const clickUndo = () => {
+        //
+    }
+
     return (
         <div className={styles.menu}>
             <div className={styles.gamestate}>
@@ -10,10 +39,10 @@ function Menu() {
                 <div>SCORE: 0</div>
             </div>
             <div className={styles.gamecontroller}>
-                <button>NEW GAME</button>
-                <button>RESTART</button>
-                <button>HINT</button>
-                <button>UNDO</button>
+                <Button content={"NEW GAME"} onClickFC={clickNewGame} />
+                <Button content={"RESTART"} onClickFC={clickRestart} />
+                <Button content={"HINT"} onClickFC={clickHint} />
+                <Button content={"UNDO"} onClickFC={clickUndo} />
             </div>
         </div>
     );

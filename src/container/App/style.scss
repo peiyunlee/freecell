@@ -8,15 +8,16 @@
   color: #222222;
   letter-spacing: 1.4px;
 }
+body{
+  background-color: #e2e2e2;
+}
 .app {
   width: 100%;
   min-width: 1200px;
-  background-color: #e2e2e2;
   height: 100vh;
   display: grid;
-  grid: 145px auto 80px / auto;
+  grid: 195px auto 80px / auto;
   justify-content: center;
-  padding-top: 50px;
 }
 img {
   user-select: none;
