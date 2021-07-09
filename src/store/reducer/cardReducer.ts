@@ -4,6 +4,7 @@ import { cardAction } from '../actions/cardActions'
 import PokerCard from '../../lib/PokerCard'
 
 interface StoreState {
+    questionLayoutIndex: number,
     questionLayout: PokerCard[][],
     tempLayout: Array<PokerCard | null>,
     overLayout: PokerCard[][],
@@ -21,6 +22,7 @@ function questionsNewPokerCardInstance(questions: string[][]) {
 }
 
 const initialState: StoreState = {
+    questionLayoutIndex: 0,
     questionLayout: questionsNewPokerCardInstance(questions[0]),
     tempLayout: [null, null, null, null],
     overLayout: [[], [], [], []],
@@ -50,6 +52,25 @@ const cardReducer = (state = initialState, action: cardAction): StoreState => {
                 overLayout: [
                     ...action.overLayout,
                 ],
+            }
+            break;
+        case types.NEWGAME:
+            let index = 0;
+            if (state.questionLayoutIndex == 0) index = 1;
+            return {
+                questionLayoutIndex: index,
+                questionLayout: questionsNewPokerCardInstance(questions[index]),
+                tempLayout: [null, null, null, null],
+                overLayout: [[], [], [], []],
+            }
+            break;
+        case types.RESTARTGAME:
+            return {
+                ...state,
+                questionLayout: [
+                    ...questionsNewPokerCardInstance(questions[state.questionLayoutIndex])],
+                tempLayout: [null, null, null, null],
+                overLayout: [[], [], [], []],
             }
             break;
         default:

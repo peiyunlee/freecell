@@ -6,3 +6,9 @@ export type SET_TEMPLAYOUT = typeof SET_TEMPLAYOUT;
 
 export const SET_OVERLAYOUT = 'SET_OVERLAYOUT';
 export type SET_OVERLAYOUT = typeof SET_OVERLAYOUT;
+
+export const NEWGAME = 'NEWGAME';
+export type NEWGAME = typeof NEWGAME;
+
+export const RESTARTGAME = 'RESTARTGAME';
+export type RESTARTGAME = typeof RESTARTGAME;

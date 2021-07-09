@@ -19,16 +19,31 @@ function GameBlock() {
     const [tempLayout, settempLayout] = useState<Array<PokerCard | null>>(store.tempLayout)
 
     useEffect(() => {
+        console.log(store.tempLayout)
+        settempLayout(store.tempLayout)
     }, [store.tempLayout])
 
     const [overLayout, setoverLayout] = useState<PokerCard[][]>(store.overLayout)
 
     useEffect(() => {
+        setoverLayout(store.overLayout)
+        if (_IsGameFinish()) {
+            alert("gamefinish")
+        }
     }, [store.overLayout])
 
     const [draggingItemId, setdraggingItemId] = useState<string>('');
 
     const dispatch = useDispatch();
+
+    const _IsGameFinish = () => {
+        let result = false;
+        overLayout.forEach((item) => {
+            if (item.length == 13) result = true;
+            else result = false;
+        })
+        return result;
+    }
 
     const _handleCardMove = (index: number, from: string, to: string, fromIndex: number, toIndex: number) => {
         switch (to) {
