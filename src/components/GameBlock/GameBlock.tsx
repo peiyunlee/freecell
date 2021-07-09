@@ -8,8 +8,15 @@ import CardBlock from '../../components/CardBlock/CardBlock';
 import PokerCard from '../../lib/PokerCard';
 import { CARDTYPE } from '../../lib/constants/enum/CARDTYPE';
 
-function GameBlock() {
+interface MyProps {
+    setModalShow: (modalType: number | null) => void,
+    children?: React.ReactNode,
+}
+
+function GameBlock(props: MyProps) {
     const store = useSelector((store: storeTypes) => store.cardReducer)
+    const { setModalShow } = props;
+
     const [questionLayout, setquestionLayout] = useState<PokerCard[][]>(store.questionLayout)
 
     useEffect(() => {
@@ -27,7 +34,7 @@ function GameBlock() {
     useEffect(() => {
         setoverLayout(store.overLayout)
         if (_IsGameFinish()) {
-            alert("gamefinish")
+            setModalShow(0)
         }
     }, [store.overLayout])
 

@@ -34,7 +34,7 @@ function Menu(props: MyProps) {
     return (
         <div className={styles.menu}>
             <div className={styles.gamestate}>
-                <div className={styles.info}><img src={info} alt="" /></div>
+                <div className={styles.info} onClick={()=>{setModalShow(3)}}><img src={info} alt="" /></div>
                 <div>TIME: 00:00</div>
                 <div>SCORE: 0</div>
             </div>

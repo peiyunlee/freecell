@@ -18,7 +18,7 @@ const App: FC = () => {
     return (
         <div className={styles.app}>
             {modalShow ? <Modal modalType={modalType} setModalShow={setModalShow} /> : <></>}
-            <GameBlock />
+            <GameBlock setModalShow={setModalShow} />
             <Menu setModalShow={setModalShow} />
         </div>
     );

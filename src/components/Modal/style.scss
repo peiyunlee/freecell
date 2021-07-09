@@ -65,8 +65,10 @@
   .content {
     font-size: 14px;
     font-weight: 600;
-    color: #333333;
     text-align: justify;
+    .span{
+      color: #333333;
+    }
   }
 
   .content3{

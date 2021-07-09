@@ -92,7 +92,7 @@ function Modal(props: MyProps) {
                 <div className={styles.title}>{content[modalType].title}</div>
                 <div className={modalType == 3 ? `${styles.content} ${styles.content3}` : `${styles.content}`}>
                     {content[modalType].content.map((item, index) => {
-                        return (<span key={index}>{item}<br /><br /></span>)
+                        return (<span key={index} className={styles.span}>{item}<br /><br /></span>)
                     })}
                 </div>
                 <div className={styles.btn_wrapper}>
