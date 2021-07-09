@@ -14,42 +14,39 @@ interface MyProps {
 function CardList(props: MyProps) {
     const { questionLayoutColumn, tableIndex, draggingItemId } = props;
 
+    const _setCanDrag = (cardChildren: PokerCard[]) => {
+        if (cardChildren.length >= 2) {
+            for (let i = 1; i < cardChildren.length; i++) {
+                const card1 = cardChildren[i - 1];
+                const card2 = cardChildren[i];
+                if (card1 != null && card2 != null){
+                    if (card1.num - 1 != card2.num) return false;
+                    if (card1.color == card2.color) return false;
+                }
+            }
+        }
+        return true;
+    }
+
     const _renderCard = (item: PokerCard, index: number) => {
         let childChildren: PokerCard[] = []
-        if (tableIndex == parseInt(draggingItemId.split('_')[2])
-            && index == parseInt(draggingItemId.split('_')[3])) {
-            childChildren = questionLayoutColumn.slice(index);
-        }
+        childChildren = questionLayoutColumn.slice(index);
+
+        // if (tableIndex == parseInt(draggingItemId.split('_')[2])
+        //     && index == parseInt(draggingItemId.split('_')[3])) {
+        //     childChildren = questionLayoutColumn.slice(index);
+        // }
+
         const propsToCard = {
             instance: item,
             draggingItemId: draggingItemId,
             draggableIndex: index,
-            cardChildren: childChildren
+            cardChildren: childChildren,
+            canDrag: _setCanDrag(childChildren),
         }
         return <Card key={`card_QuestionLayout_${tableIndex}_${index}`} {...propsToCard} />
     }
 
-    //     canDrop: item => {
-    //         console.log(item.pokerCard.num)
-    //         const tableRight = !(item.table === 'QuestionLayout' && item.tableIndex === tableIndex);
-    //         let colorRight = true;
-    //         let numberRight = true;
-    //         if (!(questionLayoutColumn && !questionLayoutColumn.length)) {
-    //             colorRight = PokerCard.compareColor(questionLayoutColumn[questionLayoutColumn.length - 1], item.pokerCard.color,);
-    //             numberRight = PokerCard.numberIsPowerDown(questionLayoutColumn[questionLayoutColumn.length - 1], item.pokerCard.num)
-    //         }
-    //         return tableRight && !colorRight && numberRight
-
-    // const canDrop = () => {
-    //     const tableRight = !(item.table === 'QuestionLayout' && item.tableIndex === tableIndex);
-    //     let colorRight = true;
-    //     let numberRight = true;
-    //     if (!(questionLayoutColumn && !questionLayoutColumn.length)) {
-    //         colorRight = PokerCard.compareColor(questionLayoutColumn[questionLayoutColumn.length - 1], item.pokerCard.color,);
-    //         numberRight = PokerCard.numberIsPowerDown(questionLayoutColumn[questionLayoutColumn.length - 1], item.pokerCard.num)
-    //     }
-    //     return tableRight && !colorRight && numberRight
-    // }
 
     return (
         <Droppable droppableId={`table_QuestionLayout_${tableIndex}`}>

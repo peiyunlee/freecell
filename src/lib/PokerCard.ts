@@ -50,13 +50,16 @@ class PokerCard implements IPokerCard {
 
   getColor = (): string => {
     switch (this.type) {
-      case 'H' || 'D':
+      case 'H':
         return 'RED';
-      case 'S' || 'C':
+      case 'S':
+        return 'BLACK';
+      case 'D':
+        return 'RED';
+      case 'C':
         return 'BLACK';
       default:
         return '';
-        break;
     }
   }
 

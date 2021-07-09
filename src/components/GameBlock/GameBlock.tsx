@@ -14,6 +14,7 @@ function GameBlock() {
 
     useEffect(() => {
         setquestionLayout(store.questionLayout)
+        console.log(store.questionLayout)
     }, [store.questionLayout])
 
     const [tempLayout, settempLayout] = useState<Array<PokerCard | null>>(store.tempLayout)
@@ -266,8 +267,10 @@ function GameBlock() {
     }
 
     const _onDragStart = (start: DragStart) => {
-        if (start.draggableId.split('_')[1] == 'QuestionLayout')
+        const draggableId = start.draggableId.split('_');
+        if (draggableId[1] == 'QuestionLayout'){
             setdraggingItemId(start.draggableId);
+        }
     }
 
     return (

@@ -20,7 +20,8 @@ function TempTable(props: MyProps) {
         instance: instance,
         draggableIndex: tableIndex,
         draggingItemId: draggingItemId,
-        cardChildren: [instance]
+        cardChildren: [instance],
+        canDrag: true,
     }
 
     return (

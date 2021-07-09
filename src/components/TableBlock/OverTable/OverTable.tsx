@@ -48,7 +48,8 @@ function OverTable(props: MyProps) {
             instance: item,
             draggableIndex: index,
             draggingItemId: draggingItemId,
-            cardChildren: [item]
+            cardChildren: [item],
+            canDrag: true,
         }
         return item.cardId == '' ? <></> : <Card key={`card_OverLayout_${tableIndex}_${index}`} {...propsToCard} />
     }
