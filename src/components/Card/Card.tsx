@@ -1,7 +1,5 @@
-import React, { Children, useEffect } from 'react';
+import React from 'react';
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd'
-// import { useDrag } from 'react-dnd'
-// import { getEmptyImage } from "react-dnd-html5-backend";
 import styles from './style.scss';
 import images from '../../assets/Images';
 import PokerCard from '../../lib/PokerCard'

@@ -7,7 +7,6 @@ import joyImg from '../../assets/images/king_joy.png'
 import sadImg from '../../assets/images/king_sad.png'
 import angryImg from '../../assets/images/king_angry.png'
 import Button from '../Button/Button'
-import { newGame, restartGame } from '../../store/actions/cardActions';
 
 const content = [
     {

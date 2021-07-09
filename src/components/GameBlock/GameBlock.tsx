@@ -19,7 +19,6 @@ function GameBlock() {
     const [tempLayout, settempLayout] = useState<Array<PokerCard | null>>(store.tempLayout)
 
     useEffect(() => {
-        console.log(store.tempLayout)
         settempLayout(store.tempLayout)
     }, [store.tempLayout])
 

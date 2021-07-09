@@ -1,8 +1,5 @@
 import React from 'react';
 import CSS from 'csstype';
-// import { useDragLayer } from 'react-dnd'
-import styles from './style.scss';
-import images from '../../assets/Images';
 
 
 
