@@ -20,6 +20,22 @@ class PokerCard implements IPokerCard {
     this.cardId = cardId;
   }
 
+  static _isCardColorNotMatch = (card1: PokerCard, card2: PokerCard): boolean => {
+    return !(card1.color == card2.color)
+  }
+
+  static _isCardNumberDecreaseByOne = (card1: PokerCard, card2: PokerCard): boolean => {
+    return card1.num - 1 == card2.num
+  }
+
+  static _isCardNumberIncreaseByOne = (card1: PokerCard, card2: PokerCard): boolean => {
+    return card1.num + 1 == card2.num
+  }
+
+  static _isCardTypeMatch = (card1: PokerCard, card2: PokerCard): boolean => {
+    return card1.type == card2.type
+  }
+
   getType = (cardId: string): string => {
     return cardId.charAt(0);
   }

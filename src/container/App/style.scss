@@ -18,6 +18,13 @@
   justify-content: center;
   padding-top: 50px;
 }
+img {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
 
 // @media (max-width: 1200px) {
 //   .app {

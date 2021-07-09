@@ -14,19 +14,16 @@ function GameBlock() {
 
     useEffect(() => {
         setquestionLayout(store.questionLayout)
-        console.log(store.questionLayout)
     }, [store.questionLayout])
 
     const [tempLayout, settempLayout] = useState<Array<PokerCard | null>>(store.tempLayout)
 
     useEffect(() => {
-        settempLayout(store.tempLayout)
     }, [store.tempLayout])
 
     const [overLayout, setoverLayout] = useState<PokerCard[][]>(store.overLayout)
 
     useEffect(() => {
-        setoverLayout(store.overLayout)
     }, [store.overLayout])
 
     const [draggingItemId, setdraggingItemId] = useState<string>('');
@@ -75,7 +72,7 @@ function GameBlock() {
         else item = overLayout[fromIndex][index];
 
         if (item == null) return true;
-        return !(item.color == questionLayout[toIndex][questionLayout[toIndex].length - 1].color)
+        return PokerCard._isCardColorNotMatch(item, questionLayout[toIndex][questionLayout[toIndex].length - 1])
     }
 
     const _isCardNumberDecreaseByOne = (index: number, from: string, to: string, fromIndex: number, toIndex: number): boolean => {
@@ -90,7 +87,7 @@ function GameBlock() {
         if (item == null) return true;
 
         if (overLayout[toIndex].length == 0) return item.num == 1;
-        return item.num - 1 == overLayout[toIndex][overLayout[toIndex].length - 1].num
+        return PokerCard._isCardNumberDecreaseByOne(item, overLayout[toIndex][overLayout[toIndex].length - 1])
     }
 
     const _isCardNumberIncreaseByOne = (index: number, from: string, to: string, fromIndex: number, toIndex: number): boolean => {
@@ -104,7 +101,7 @@ function GameBlock() {
         else item = overLayout[fromIndex][index];
 
         if (item == null) return true;
-        return item.num + 1 == questionLayout[toIndex][questionLayout[toIndex].length - 1].num
+        return PokerCard._isCardNumberIncreaseByOne(item, questionLayout[toIndex][questionLayout[toIndex].length - 1])
     }
 
     const _isCardTypeMatch = (index: number, from: string, to: string, fromIndex: number, toIndex: number): boolean => {
@@ -117,7 +114,7 @@ function GameBlock() {
 
         if (item == null) return true;
         if (overLayout[toIndex].length == 0) return item.type == CARDTYPE[toIndex];
-        return item.type == overLayout[toIndex][overLayout[toIndex].length - 1].type;
+        return PokerCard._isCardTypeMatch(item, overLayout[toIndex][overLayout[toIndex].length - 1]);
     }
 
     const _setCardToQuestionLayout = (index: number, from: string, fromIndex: number, toIndex: number) => {
@@ -268,7 +265,7 @@ function GameBlock() {
 
     const _onDragStart = (start: DragStart) => {
         const draggableId = start.draggableId.split('_');
-        if (draggableId[1] == 'QuestionLayout'){
+        if (draggableId[1] == 'QuestionLayout') {
             setdraggingItemId(start.draggableId);
         }
     }

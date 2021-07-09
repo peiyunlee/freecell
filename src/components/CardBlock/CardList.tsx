@@ -19,9 +19,10 @@ function CardList(props: MyProps) {
             for (let i = 1; i < cardChildren.length; i++) {
                 const card1 = cardChildren[i - 1];
                 const card2 = cardChildren[i];
-                if (card1 != null && card2 != null){
-                    if (card1.num - 1 != card2.num) return false;
-                    if (card1.color == card2.color) return false;
+                if (card1 != null && card2 != null) {
+                    if (!PokerCard._isCardNumberDecreaseByOne(card1, card2)
+                        || PokerCard._isCardColorNotMatch(card1, card2))
+                        return false;
                 }
             }
         }
