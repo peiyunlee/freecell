@@ -147,6 +147,7 @@ function GameBlock(props: MyProps) {
                     newQuestionLayout[toIndex].push(item);
                 })
                 dispatch(cardActions.setQuestionLayout(newQuestionLayout))
+                dispatch(gameActions.addScore(-5))
                 break;
             case "TempLayout":
                 let newTempLayout = tempLayout;
@@ -159,6 +160,7 @@ function GameBlock(props: MyProps) {
                 newTempLayout[fromIndex] = null;
                 dispatch(cardActions.setQuestionLayout(newQuestionLayout))
                 dispatch(cardActions.setTempLayout(newTempLayout))
+                dispatch(gameActions.addScore(-5))
                 break;
             case "OverLayout":
                 let newOverLayout: PokerCard[][] = overLayout;
@@ -170,6 +172,7 @@ function GameBlock(props: MyProps) {
                 newQuestionLayout[toIndex].push(instance);
                 dispatch(cardActions.setQuestionLayout(newQuestionLayout))
                 dispatch(cardActions.setOverLayout(newOverLayout))
+                dispatch(gameActions.addScore(-100))
                 break;
             default:
                 return
@@ -191,6 +194,7 @@ function GameBlock(props: MyProps) {
                 newTempLayout[toIndex] = instance;
                 dispatch(cardActions.setQuestionLayout(newQuestionLayout))
                 dispatch(cardActions.setTempLayout(newTempLayout))
+                dispatch(gameActions.addScore(-5))
                 break;
             case "TempLayout":
                 instance = newTempLayout[fromIndex];
@@ -212,6 +216,7 @@ function GameBlock(props: MyProps) {
                 newTempLayout[toIndex] = instance;
                 dispatch(cardActions.setOverLayout(newOverLayout))
                 dispatch(cardActions.setTempLayout(newTempLayout))
+                dispatch(gameActions.addScore(-100))
                 break;
             default:
                 return
@@ -233,6 +238,7 @@ function GameBlock(props: MyProps) {
                 newOverLayout[toIndex].push(instance);
                 dispatch(cardActions.setOverLayout(newOverLayout))
                 dispatch(cardActions.setQuestionLayout(newQuestionLayout))
+                dispatch(gameActions.addScore(50))
                 break;
             case "TempLayout":
                 let newTempLayout = tempLayout;
@@ -245,6 +251,7 @@ function GameBlock(props: MyProps) {
                 newTempLayout[fromIndex] = null;
                 dispatch(cardActions.setOverLayout(newOverLayout))
                 dispatch(cardActions.setTempLayout(newTempLayout))
+                dispatch(gameActions.addScore(50))
                 break;
             case "OverLayout":
                 instance = newOverLayout[fromIndex].pop();

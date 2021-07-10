@@ -20,10 +20,10 @@ const gameReducer = (state = initialState, action: gameAction): GameState => {
                 ...state,
                 seconds: state.seconds + (state.isModalShow ? 0 : 1),
             }
-        case types.SET_SCORE:
+        case types.ADD_SCORE:
             return {
                 ...state,
-                score: action.score,
+                score: state.score + action.score,
             }
         case types.NEW_GAME:
             return initialState;

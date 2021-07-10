@@ -16,11 +16,6 @@ function Menu(props: MyProps) {
     const store = useSelector((store: storeTypes) => store.gameReducer)
     const dispatch = useDispatch();
     const { setModalShow } = props;
-    const [score, setscore] = useState(store.score);
-    
-    useEffect(() => {
-        setscore(store.score);
-    }, [store.score]);
 
     const [time, settime] = useState("0:0");
 
@@ -64,7 +59,7 @@ function Menu(props: MyProps) {
             <div className={styles.gamestate}>
                 <div className={styles.info} onClick={() => { setModalShow(3) }}><img src={info} alt="" /></div>
                 <div>TIME: {time}</div>
-                <div>SCORE: {score}</div>
+                <div>SCORE: {store.score}</div>
             </div>
             <div className={styles.gamecontroller}>
                 <Button content={"NEW GAME"} onClickFC={clickNewGame} />

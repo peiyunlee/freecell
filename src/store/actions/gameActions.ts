@@ -8,14 +8,14 @@ export const addSeconds = (): AddSecondsAction => ({
     type: types.ADD_SECONDS,
 });
 
-interface SetScoreAction {
+interface AddScoreAction {
     score: number,
-    type: types.SET_SCORE
+    type: types.ADD_SCORE
 }
 
-export const setScore = (score: number): SetScoreAction => ({
+export const addScore = (score: number): AddScoreAction => ({
     score: score,
-    type: types.SET_SCORE,
+    type: types.ADD_SCORE,
 });
 
 interface NewGameAction {
@@ -36,4 +36,4 @@ export const pauseGame = (isModalShow: boolean): PauseGameAction => ({
     type: types.PAUSE_GAME
 });
 
-export type gameAction = AddSecondsAction | SetScoreAction | PauseGameAction | NewGameAction;
+export type gameAction = AddSecondsAction | AddScoreAction | PauseGameAction | NewGameAction;

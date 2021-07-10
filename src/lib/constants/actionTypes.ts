@@ -19,8 +19,8 @@ export type SET_SECONDS = typeof SET_SECONDS;
 export const ADD_SECONDS = 'ADD_SECONDS';
 export type ADD_SECONDS = typeof ADD_SECONDS;
 
-export const SET_SCORE = 'SET_SCORE';
-export type SET_SCORE = typeof SET_SCORE;
+export const ADD_SCORE = 'SET_SCORE';
+export type ADD_SCORE = typeof ADD_SCORE;
 
 export const NEW_GAME = 'NEW_GAME';
 export type NEW_GAME = typeof NEW_GAME;
