@@ -44,10 +44,7 @@ function GameBlock(props: MyProps) {
 
     const _IsGameFinish = () => {
         let result = false;
-        overLayout.forEach((item) => {
-            if (item.length == 13) result = true;
-            else result = false;
-        })
+        result = overLayout.every((item) => item.length == 13)
         return result;
     }
 
