@@ -21,7 +21,7 @@ function CardList(props: MyProps) {
                 const card2 = cardChildren[i];
                 if (card1 != null && card2 != null) {
                     if (!PokerCard._isCardNumberDecreaseByOne(card1, card2)
-                        || PokerCard._isCardColorNotMatch(card1, card2))
+                        || !PokerCard._isCardColorNotMatch(card1, card2))
                         return false;
                 }
             }
