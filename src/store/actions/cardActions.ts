@@ -31,20 +31,20 @@ export const setOverLayout = (overLayout: PokerCard[][]): SetOverLayoutAction =>
     type: types.SET_OVERLAYOUT,
 });
 
-interface NewGameAction {
-    type: types.NEWGAME;
+interface NewLayoutAction {
+    type: types.NEW_LAYOUT;
 }
 
-export const newGame = (): NewGameAction => ({
-    type: types.NEWGAME,
+export const newLayout = (): NewLayoutAction => ({
+    type: types.NEW_LAYOUT,
 });
 
-interface RestartGameAction {
-    type: types.RESTARTGAME;
+interface RestartLayoutAction {
+    type: types.RESTART_LAYOUT;
 }
 
-export const restartGame = (): RestartGameAction => ({
-    type: types.RESTARTGAME,
+export const restartLayout = (): RestartLayoutAction => ({
+    type: types.RESTART_LAYOUT,
 });
 
-export type cardAction = SetQuestionLayoutAction | SetTempLayoutAction | SetOverLayoutAction | NewGameAction | RestartGameAction;
+export type cardAction = SetQuestionLayoutAction | SetTempLayoutAction | SetOverLayoutAction | NewLayoutAction | RestartLayoutAction;

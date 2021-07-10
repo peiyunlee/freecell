@@ -3,7 +3,7 @@ import * as types from '../../lib/constants/actionTypes';
 import { cardAction } from '../actions/cardActions'
 import PokerCard from '../../lib/PokerCard'
 
-interface StoreState {
+interface CardState {
     questionLayoutIndex: number,
     questionLayout: PokerCard[][],
     tempLayout: Array<PokerCard | null>,
@@ -21,14 +21,14 @@ function questionsNewPokerCardInstance(questions: string[][]) {
     return result;
 }
 
-const initialState: StoreState = {
+const initialState: CardState = {
     questionLayoutIndex: 0,
     questionLayout: questionsNewPokerCardInstance(questions[0]),
     tempLayout: [null, null, null, null],
     overLayout: [[], [], [], []],
 };
 
-const cardReducer = (state = initialState, action: cardAction): StoreState => {
+const cardReducer = (state = initialState, action: cardAction): CardState => {
     switch (action.type) {
         case types.SET_QUESTIONLAYOUT:
             return {
@@ -37,7 +37,6 @@ const cardReducer = (state = initialState, action: cardAction): StoreState => {
                     ...action.questionLayout,
                 ],
             }
-            break;
         case types.SET_TEMPLAYOUT:
             return {
                 ...state,
@@ -45,7 +44,6 @@ const cardReducer = (state = initialState, action: cardAction): StoreState => {
                     ...action.tempLayout,
                 ],
             }
-            break;
         case types.SET_OVERLAYOUT:
             return {
                 ...state,
@@ -53,8 +51,7 @@ const cardReducer = (state = initialState, action: cardAction): StoreState => {
                     ...action.overLayout,
                 ],
             }
-            break;
-        case types.NEWGAME:
+        case types.NEW_LAYOUT:
             let index = 0;
             if (state.questionLayoutIndex == 0) index = 1;
             return {
@@ -63,8 +60,7 @@ const cardReducer = (state = initialState, action: cardAction): StoreState => {
                 tempLayout: [null, null, null, null],
                 overLayout: [[], [], [], []],
             }
-            break;
-        case types.RESTARTGAME:
+        case types.RESTART_LAYOUT:
             return {
                 ...state,
                 questionLayout: [
@@ -72,10 +68,8 @@ const cardReducer = (state = initialState, action: cardAction): StoreState => {
                 tempLayout: [null, null, null, null],
                 overLayout: [[], [], [], []],
             }
-            break;
         default:
             return state;
-            break;
     };
 }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import * as actions from '../../store/actions/cardActions';
+import * as gameActions from '../../store/actions/gameActions';
+import * as cardActions from '../../store/actions/cardActions';
 import styles from './style.scss';
 import happyImg from '../../assets/images/king_happy.png'
 import joyImg from '../../assets/images/king_joy.png'
@@ -52,7 +53,7 @@ function Modal(props: MyProps) {
     const setClickFC = (title: string) => {
         switch (title) {
             case "PLAY AGAIN":
-                return _clickPlayAgain;
+                return _clickRestart;
             case "NEW GAME":
                 return _clickNewGame;
             case "RESTART":
@@ -64,17 +65,15 @@ function Modal(props: MyProps) {
         }
     }
 
-    const _clickPlayAgain = () => {
-        dispatch(actions.restartGame());
-    }
-
     const _clickNewGame = () => {
-        dispatch(actions.newGame());
         setModalShow(1);
+        dispatch(cardActions.newLayout());
+        dispatch(gameActions.newGame());
     }
 
     const _clickRestart = () => {
-        dispatch(actions.restartGame());
+        dispatch(cardActions.restartLayout());
+        dispatch(gameActions.newGame());
     }
 
     const _clickUndo = () => {

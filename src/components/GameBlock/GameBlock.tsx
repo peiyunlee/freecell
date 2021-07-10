@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd'
 import { storeTypes } from '../../store/configureStore';
-import * as actions from '../../store/actions/cardActions';
+import * as cardActions from '../../store/actions/cardActions';
+import * as gameActions from '../../store/actions/gameActions';
 import TableBlock from '../../components/TableBlock/TableBlock';
 import CardBlock from '../../components/CardBlock/CardBlock';
 import PokerCard from '../../lib/PokerCard';
@@ -15,6 +16,7 @@ interface MyProps {
 
 function GameBlock(props: MyProps) {
     const store = useSelector((store: storeTypes) => store.cardReducer)
+    const dispatch = useDispatch();
     const { setModalShow } = props;
 
     const [questionLayout, setquestionLayout] = useState<PokerCard[][]>(store.questionLayout)
@@ -33,20 +35,18 @@ function GameBlock(props: MyProps) {
 
     useEffect(() => {
         setoverLayout(store.overLayout)
-        if (_IsGameFinish()) {
+        if (_isGameFinish()) {
             setModalShow(0)
         }
     }, [store.overLayout])
 
-    const [draggingItemId, setdraggingItemId] = useState<string>('');
-
-    const dispatch = useDispatch();
-
-    const _IsGameFinish = () => {
+    const _isGameFinish = () => {
         let result = false;
         result = overLayout.every((item) => item.length == 13)
         return result;
     }
+
+    const [draggingItemId, setdraggingItemId] = useState<string>('');
 
     const _handleCardMove = (index: number, from: string, to: string, fromIndex: number, toIndex: number) => {
         switch (to) {
@@ -146,7 +146,7 @@ function GameBlock(props: MyProps) {
                     item.setNewTable("QuestionLayout", toIndex)
                     newQuestionLayout[toIndex].push(item);
                 })
-                dispatch(actions.setQuestionLayout(newQuestionLayout))
+                dispatch(cardActions.setQuestionLayout(newQuestionLayout))
                 break;
             case "TempLayout":
                 let newTempLayout = tempLayout;
@@ -157,8 +157,8 @@ function GameBlock(props: MyProps) {
                 instance.setNewTable("QuestionLayout", toIndex)
                 newQuestionLayout[toIndex].push(instance);
                 newTempLayout[fromIndex] = null;
-                dispatch(actions.setQuestionLayout(newQuestionLayout))
-                dispatch(actions.setTempLayout(newTempLayout))
+                dispatch(cardActions.setQuestionLayout(newQuestionLayout))
+                dispatch(cardActions.setTempLayout(newTempLayout))
                 break;
             case "OverLayout":
                 let newOverLayout: PokerCard[][] = overLayout;
@@ -168,8 +168,8 @@ function GameBlock(props: MyProps) {
                 }
                 instance.setNewTable("QuestionLayout", toIndex)
                 newQuestionLayout[toIndex].push(instance);
-                dispatch(actions.setQuestionLayout(newQuestionLayout))
-                dispatch(actions.setOverLayout(newOverLayout))
+                dispatch(cardActions.setQuestionLayout(newQuestionLayout))
+                dispatch(cardActions.setOverLayout(newOverLayout))
                 break;
             default:
                 return
@@ -189,8 +189,8 @@ function GameBlock(props: MyProps) {
                 }
                 instance.setNewTable("TempLayout", toIndex)
                 newTempLayout[toIndex] = instance;
-                dispatch(actions.setQuestionLayout(newQuestionLayout))
-                dispatch(actions.setTempLayout(newTempLayout))
+                dispatch(cardActions.setQuestionLayout(newQuestionLayout))
+                dispatch(cardActions.setTempLayout(newTempLayout))
                 break;
             case "TempLayout":
                 instance = newTempLayout[fromIndex];
@@ -200,7 +200,7 @@ function GameBlock(props: MyProps) {
                 instance.setNewTable("TempLayout", toIndex)
                 newTempLayout[toIndex] = instance;
                 newTempLayout[fromIndex] = null;
-                dispatch(actions.setTempLayout(newTempLayout))
+                dispatch(cardActions.setTempLayout(newTempLayout))
                 break;
             case "OverLayout":
                 let newOverLayout = overLayout;
@@ -210,8 +210,8 @@ function GameBlock(props: MyProps) {
                 }
                 instance.setNewTable("TempLayout", toIndex)
                 newTempLayout[toIndex] = instance;
-                dispatch(actions.setOverLayout(newOverLayout))
-                dispatch(actions.setTempLayout(newTempLayout))
+                dispatch(cardActions.setOverLayout(newOverLayout))
+                dispatch(cardActions.setTempLayout(newTempLayout))
                 break;
             default:
                 return
@@ -231,8 +231,8 @@ function GameBlock(props: MyProps) {
                 }
                 instance.setNewTable("OverLayout", toIndex)
                 newOverLayout[toIndex].push(instance);
-                dispatch(actions.setOverLayout(newOverLayout))
-                dispatch(actions.setQuestionLayout(newQuestionLayout))
+                dispatch(cardActions.setOverLayout(newOverLayout))
+                dispatch(cardActions.setQuestionLayout(newQuestionLayout))
                 break;
             case "TempLayout":
                 let newTempLayout = tempLayout;
@@ -243,8 +243,8 @@ function GameBlock(props: MyProps) {
                 instance.setNewTable("OverLayout", toIndex)
                 newOverLayout[toIndex].push(instance);
                 newTempLayout[fromIndex] = null;
-                dispatch(actions.setOverLayout(newOverLayout))
-                dispatch(actions.setTempLayout(newTempLayout))
+                dispatch(cardActions.setOverLayout(newOverLayout))
+                dispatch(cardActions.setTempLayout(newTempLayout))
                 break;
             case "OverLayout":
                 instance = newOverLayout[fromIndex].pop();
@@ -253,7 +253,7 @@ function GameBlock(props: MyProps) {
                 }
                 instance.setNewTable("OverLayout", toIndex)
                 newOverLayout[toIndex].push(instance);
-                dispatch(actions.setOverLayout(newOverLayout))
+                dispatch(cardActions.setOverLayout(newOverLayout))
                 break;
             default:
                 break;
