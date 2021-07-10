@@ -34,6 +34,7 @@ function GameBlock(props: MyProps) {
     const [overLayout, setoverLayout] = useState<PokerCard[][]>(store.overLayout)
 
     useEffect(() => {
+        _setCardCanAuto(questionLayout);
         setoverLayout(store.overLayout)
         if (_isGameFinish()) {
             setModalShow(0)
@@ -46,7 +47,17 @@ function GameBlock(props: MyProps) {
         return result;
     }
 
-    const [draggingItemId, setdraggingItemId] = useState<string>('');
+    const [draggingItemId, setdraggingItemId] = useState<string>(''); 
+
+    const _setCardCanAuto = (layout: PokerCard[][]): PokerCard[][] => {
+        let temp = layout;
+        temp.map((item) => {
+            item.map((item, index) => {
+                item.setCanAuto(_isCardNumberDecreaseByOne(index, item.tableType, "OverLayout", item.tableIndex, item.typeNum));
+            })
+        })
+        return layout;
+    }
 
     const _handleCardMove = (index: number, from: string, to: string, fromIndex: number, toIndex: number) => {
         switch (to) {
@@ -298,7 +309,7 @@ function GameBlock(props: MyProps) {
     return (
         <DragDropContext onBeforeDragStart={(start: DragStart) => { _onDragStart(start) }} onDragEnd={(result: DropResult) => _handleOnDragEnd(result)}>
             <TableBlock draggingItemId={draggingItemId} tempLayout={tempLayout} overLayout={overLayout} />
-            <CardBlock draggingItemId={draggingItemId} questionLayout={questionLayout} />
+            <CardBlock draggingItemId={draggingItemId} questionLayout={questionLayout} handleCardMove={_handleCardMove}/>
         </DragDropContext>
     );
 }

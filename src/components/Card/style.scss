@@ -5,6 +5,13 @@
   display: grid;
   grid-auto-rows: 25px;
   justify-content: center;
+  // box-sizing: content-box;
+
+  // &:hover{
+  //   border: 3px solid #FFB53E;
+  //   border-radius: 5px;
+  // }
+
   img {
     width: 100%;
   }

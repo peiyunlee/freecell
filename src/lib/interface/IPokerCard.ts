@@ -5,4 +5,5 @@ export interface IPokerCard {
     tableIndex: number;
     tableType: string;
     cardId: string;
+    canAuto:boolean;
 }

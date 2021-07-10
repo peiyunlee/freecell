@@ -10,12 +10,20 @@ interface MyProps {
     //draggingItemId 一定是 drag questionlayout's card
     draggableIndex: number,
     canDrag: boolean,
-    cardChildren: (PokerCard | null)[]
+    cardChildren: (PokerCard | null)[],
+    handleCardMove?: (index: number, from: string, to: string, fromIndex: number, toIndex: number) => void
     children?: React.ReactNode,
 }
 
 function Card(props: MyProps) {
-    const { instance, draggableIndex, draggingItemId, cardChildren, canDrag } = props
+    const { instance, draggableIndex, draggingItemId, cardChildren, canDrag, handleCardMove } = props
+
+    const _handleCardClick = () => {
+        if (instance == null || !handleCardMove) return;
+        if (instance.canAuto) {
+            handleCardMove(draggableIndex,instance.tableType,"OverLayout",instance.tableIndex,instance.typeNum)
+        }
+    }
 
     return instance == null ? (<></>
     ) : (
@@ -57,7 +65,7 @@ function Card(props: MyProps) {
 
                     return (
                         //isnot dragging card
-                        <div ref={provided.innerRef} {...draggableProps} {...dragHandleProps} style={style} className={className}>
+                        <div ref={provided.innerRef} {...draggableProps} {...dragHandleProps} style={style} className={className} onClick={() => _handleCardClick()}>
                             <img src={images[instance.cardId]} alt="" />
                         </div>
                     )

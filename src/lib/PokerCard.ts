@@ -9,6 +9,7 @@ class PokerCard implements IPokerCard {
   cardId: string;
   tableType: string;
   tableIndex: number;
+  canAuto:boolean;
 
   constructor(cardId: string, tableType: string, tableIndex: number) {
     this.type = this.getType(cardId);
@@ -18,6 +19,7 @@ class PokerCard implements IPokerCard {
     this.tableIndex = tableIndex;
     this.tableType = tableType;
     this.cardId = cardId;
+    this.canAuto = false;
   }
 
   static _isCardColorNotMatch = (card1: PokerCard, card2: PokerCard): boolean => {
@@ -82,6 +84,10 @@ class PokerCard implements IPokerCard {
   setNewTable = (tableType: string, tableIndex: number) => {
     this.tableType = tableType;
     this.tableIndex = tableIndex;
+  }
+
+  setCanAuto = (canAuto: boolean) => {
+    this.canAuto = canAuto;
   }
 }
 

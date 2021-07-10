@@ -5,11 +5,12 @@ import PokerCard from '../../lib/PokerCard';
 interface MyProps {
     questionLayout: PokerCard[][],
     draggingItemId: string,
+    handleCardMove:(index: number, from: string, to: string, fromIndex: number, toIndex: number) => void
     children?: React.ReactNode,
 }
 
 function CardBlock(props: MyProps) {
-    const { questionLayout, draggingItemId } = props;
+    const { questionLayout, draggingItemId,handleCardMove } = props;
 
     const _renderCardList = (item: PokerCard[], index: number) => {
         const propsToCardList = {
@@ -17,7 +18,7 @@ function CardBlock(props: MyProps) {
             draggingItemId: draggingItemId,
             tableIndex: index,
         }
-        return <CardList {...propsToCardList} key={"cardlist_" + index} />
+        return <CardList {...propsToCardList} key={"cardlist_" + index} handleCardMove={handleCardMove} />
     }
 
     return (

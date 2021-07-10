@@ -8,11 +8,12 @@ interface MyProps {
     questionLayoutColumn: PokerCard[],
     draggingItemId: string,
     tableIndex: number,
+    handleCardMove: (index: number, from: string, to: string, fromIndex: number, toIndex: number) => void
     children?: React.ReactNode,
 }
 
 function CardList(props: MyProps) {
-    const { questionLayoutColumn, tableIndex, draggingItemId } = props;
+    const { questionLayoutColumn, tableIndex, draggingItemId,handleCardMove } = props;
 
     const _setCanDrag = (cardChildren: PokerCard[]) => {
         if (cardChildren.length >= 2) {
@@ -44,6 +45,7 @@ function CardList(props: MyProps) {
             draggableIndex: index,
             cardChildren: childChildren,
             canDrag: _setCanDrag(childChildren),
+            handleCardMove: handleCardMove,
         }
         return <Card key={`card_QuestionLayout_${tableIndex}_${index}`} {...propsToCard} />
     }
