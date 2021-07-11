@@ -17,7 +17,7 @@ function CardList(props: MyProps) {
 
     const _setCanDrag = (cardChildren: PokerCard[]) => {
         if (cardChildren.length >= 2) {
-            for (let i = 1; i < cardChildren.length; i++) {
+            for (var i = 1; i < cardChildren.length; i++) {
                 const card1 = cardChildren[i - 1];
                 const card2 = cardChildren[i];
                 if (card1 != null && card2 != null) {
@@ -31,7 +31,7 @@ function CardList(props: MyProps) {
     }
 
     const _renderCard = (item: PokerCard, index: number) => {
-        let childChildren: PokerCard[] = []
+        var childChildren: PokerCard[] = []
         childChildren = questionLayoutColumn.slice(index);
 
         // if (tableIndex == parseInt(draggingItemId.split('_')[2])

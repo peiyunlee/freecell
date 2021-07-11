@@ -19,30 +19,6 @@ function OverTable(props: MyProps) {
     const { overLayout, tableIndex, draggingItemId } = props
     const [tableImg, settableImg] = useState([S, H, D, C]);
 
-    // const [{ }, dropRef] = useDrop({
-    //     accept: 'card',
-    //     drop: (item: { tableIndex: number, table: string, pokerCard: PokerCard }) => {
-    //         const from = item.table;
-    //         const to = "OverLayout";
-    //         const fromIndex = item.tableIndex;
-    //         const toIndex = tableIndex;
-    //         handleCardMove(from, to, fromIndex, toIndex);
-    //     },
-    //     canDrop: item => {
-    //         const tableRight = !(item.table === 'OverLayout' && item.tableIndex === tableIndex);
-    //         const typeRight = PokerCard.compareType(item.pokerCard.type, tableIndex);
-    //         let numberRight = true;
-    //         if (overLayout && !overLayout.length) {
-    //             numberRight = item.pokerCard.num === 1;
-    //         }
-    //         else{
-    //             numberRight = PokerCard.numberIsPowerUp(overLayout[overLayout.length - 1], item.pokerCard.num)
-    //         }
-    //         return tableRight && typeRight && numberRight;
-
-    //     }
-    // });
-
     const _renderCardList = (item: PokerCard, index: number) => {
         const propsToCard = {
             instance: item,

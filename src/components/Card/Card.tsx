@@ -31,13 +31,13 @@ function Card(props: MyProps) {
             draggableId={`draggablecard_${instance.tableType}_${instance.tableIndex}_${draggableIndex}`}
             index={draggableIndex} isDragDisabled={!canDrag}>
             {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => {
-                let className = styles.card;
+                var className = styles.card;
                 if (instance.tableType == "OverLayout")
                     className = `${className} ${styles.overlayout_card}`;
 
-                let style = provided.draggableProps.style;
-                let draggableProps = provided.draggableProps;
-                let dragHandleProps;
+                var style = provided.draggableProps.style;
+                var draggableProps = provided.draggableProps;
+                var dragHandleProps;
                 if (provided.dragHandleProps)
                     dragHandleProps = provided.dragHandleProps;
 
