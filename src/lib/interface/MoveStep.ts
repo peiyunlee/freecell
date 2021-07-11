@@ -6,4 +6,5 @@ export default interface Step {
     to:string,
     fromIndex:number,
     toIndex:number,
+    score: number,
 }

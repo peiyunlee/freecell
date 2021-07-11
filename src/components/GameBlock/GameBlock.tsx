@@ -23,7 +23,7 @@ function GameBlock(props: MyProps) {
         if (store.steps.length == store.stepCount) return;
         const step = store.steps[store.steps.length - 1];
         if (step) {
-            _handleCardMove(step.resultIndex, step.to, step.from, step.toIndex, step.fromIndex, true)
+            _handleCardMove(step.resultIndex, step.to, step.from, step.toIndex, step.fromIndex, true, -step.score)
         }
     }, [store.stepCount])
 
@@ -67,26 +67,26 @@ function GameBlock(props: MyProps) {
         return layout;
     }
 
-    const _handleCardMove = (index: number, from: string, to: string, fromIndex: number, toIndex: number, isUndo: boolean = false) => {
+    const _handleCardMove = (index: number, from: string, to: string, fromIndex: number, toIndex: number, isUndo: boolean = false, score: number = 0) => {
         switch (to) {
             case "QuestionLayout":
                 if (!(_isCardColorMatch(index, from, to, fromIndex, toIndex)
                     && _isCardNumberIncreaseByOne(index, from, to, fromIndex, toIndex)) && !isUndo)
                     return;
-                _setCardToQuestionLayout(index, from, to, fromIndex, toIndex, isUndo)
+                _setCardToQuestionLayout(index, from, to, fromIndex, toIndex, isUndo, score)
                 break;
             case "TempLayout":
                 if (!(_isCardLastOne(index, from, fromIndex)
                     && tempLayout[toIndex] == null) && !isUndo)
-                    return;        
-                _setCardToTempLayout(index, from, to, fromIndex, toIndex, isUndo)
+                    return;
+                _setCardToTempLayout(index, from, to, fromIndex, toIndex, isUndo, score)
                 break;
             case "OverLayout":
                 if (!(_isCardTypeMatch(index, from, to, fromIndex, toIndex)
                     && _isCardNumberDecreaseByOne(index, from, to, fromIndex, toIndex)
                     && _isCardLastOne(index, from, fromIndex)) && !isUndo)
                     return;
-                _setCardToOverLayout(index, from, to, fromIndex, toIndex, isUndo)
+                _setCardToOverLayout(index, from, to, fromIndex, toIndex, isUndo, score)
                 break;
             default:
                 break;
@@ -154,7 +154,7 @@ function GameBlock(props: MyProps) {
         return PokerCard._isCardTypeMatch(item, overLayout[toIndex][overLayout[toIndex].length - 1]);
     }
 
-    const _setCardToQuestionLayout = (index: number, from: string, to: string, fromIndex: number, toIndex: number, isUndo: boolean) => {
+    const _setCardToQuestionLayout = (index: number, from: string, to: string, fromIndex: number, toIndex: number, isUndo: boolean, score = 0) => {
         var newQuestionLayout = questionLayout;
         var newTempLayout = tempLayout;
         var newOverLayout = overLayout;
@@ -169,7 +169,7 @@ function GameBlock(props: MyProps) {
                     newQuestionLayout[toIndex].push(item);
                 })
                 dispatch(cardActions.setQuestionLayout(newQuestionLayout))
-                dispatch(gameActions.addScore(-5))
+                score = -5;
                 break;
             case "TempLayout":
                 instance = newTempLayout[fromIndex];
@@ -181,7 +181,6 @@ function GameBlock(props: MyProps) {
                 newTempLayout[fromIndex] = null;
                 dispatch(cardActions.setQuestionLayout(newQuestionLayout))
                 dispatch(cardActions.setTempLayout(newTempLayout))
-                dispatch(gameActions.addScore(-5))
                 break;
             case "OverLayout":
                 instance = newOverLayout[fromIndex].pop();
@@ -192,18 +191,18 @@ function GameBlock(props: MyProps) {
                 newQuestionLayout[toIndex].push(instance);
                 dispatch(cardActions.setQuestionLayout(newQuestionLayout))
                 dispatch(cardActions.setOverLayout(newOverLayout))
-                dispatch(gameActions.addScore(-100))
                 break;
             default:
                 return false;
         }
         if (isUndo)
-            dispatch(cardActions.UndoStep())
+            dispatch(cardActions.UndoStep());
         else
-            dispatch(cardActions.AddStep({ resultIndex, from, to, fromIndex, toIndex }))
+            dispatch(cardActions.AddStep({ resultIndex, from, to, fromIndex, toIndex, score }));
+        dispatch(gameActions.addScore(score));
     }
 
-    const _setCardToTempLayout = (index: number, from: string, to: string, fromIndex: number, toIndex: number, isUndo: boolean) => {
+    const _setCardToTempLayout = (index: number, from: string, to: string, fromIndex: number, toIndex: number, isUndo: boolean, score = 0) => {
         var newQuestionLayout = questionLayout;
         var newTempLayout = tempLayout;
         var newOverLayout = overLayout;
@@ -219,7 +218,7 @@ function GameBlock(props: MyProps) {
                 newTempLayout[toIndex] = instance;
                 dispatch(cardActions.setQuestionLayout(newQuestionLayout))
                 dispatch(cardActions.setTempLayout(newTempLayout))
-                dispatch(gameActions.addScore(-5))
+                score = -5;
                 break;
             case "TempLayout":
                 instance = newTempLayout[fromIndex];
@@ -240,7 +239,7 @@ function GameBlock(props: MyProps) {
                 newTempLayout[toIndex] = instance;
                 dispatch(cardActions.setOverLayout(newOverLayout))
                 dispatch(cardActions.setTempLayout(newTempLayout))
-                dispatch(gameActions.addScore(-100))
+                score = -100;
                 break;
             default:
                 return false;
@@ -248,10 +247,11 @@ function GameBlock(props: MyProps) {
         if (isUndo)
             dispatch(cardActions.UndoStep())
         else
-            dispatch(cardActions.AddStep({ resultIndex, from, to, fromIndex, toIndex }))
+            dispatch(cardActions.AddStep({ resultIndex, from, to, fromIndex, toIndex, score }));
+        dispatch(gameActions.addScore(score));
     }
 
-    const _setCardToOverLayout = (index: number, from: string, to: string, fromIndex: number, toIndex: number, isUndo: boolean) => {
+    const _setCardToOverLayout = (index: number, from: string, to: string, fromIndex: number, toIndex: number, isUndo: boolean, score = 0) => {
         var newQuestionLayout = questionLayout;
         var newTempLayout = tempLayout;
         var newOverLayout = overLayout;
@@ -267,7 +267,7 @@ function GameBlock(props: MyProps) {
                 newOverLayout[toIndex].push(instance);
                 dispatch(cardActions.setOverLayout(newOverLayout))
                 dispatch(cardActions.setQuestionLayout(newQuestionLayout))
-                dispatch(gameActions.addScore(50))
+                score = 50;
                 break;
             case "TempLayout":
                 instance = newTempLayout[fromIndex];
@@ -279,7 +279,7 @@ function GameBlock(props: MyProps) {
                 newTempLayout[fromIndex] = null;
                 dispatch(cardActions.setOverLayout(newOverLayout))
                 dispatch(cardActions.setTempLayout(newTempLayout))
-                dispatch(gameActions.addScore(50))
+                score = 50;
                 break;
             case "OverLayout":
                 instance = newOverLayout[fromIndex].pop();
@@ -296,7 +296,8 @@ function GameBlock(props: MyProps) {
         if (isUndo)
             dispatch(cardActions.UndoStep())
         else
-            dispatch(cardActions.AddStep({ resultIndex, from, to, fromIndex, toIndex }))
+            dispatch(cardActions.AddStep({ resultIndex, from, to, fromIndex, toIndex, score }));
+        dispatch(gameActions.addScore(score));
     }
 
     const _handleOnDragEnd = (result: DropResult) => {

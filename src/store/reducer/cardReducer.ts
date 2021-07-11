@@ -31,6 +31,7 @@ const initialStep: Step = {
     to: '',
     fromIndex: 0,
     toIndex: 0,
+    score: 0,
 };
 
 const initialState: CardState = {
