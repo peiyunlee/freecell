@@ -77,12 +77,12 @@ function Card(props: MyProps) {
 
                 //is dragging card 
                 return (
-                    <div ref={provided.innerRef} {...draggableProps} {...dragHandleProps} className={className} style={style}>
-                        {cardChildren.map((item, index) => { return item == null ? <></> : <img key={"cardImg_" + index} src={images[item.cardId]} alt="" /> })}
+                    <div ref={provided.innerRef} {...draggableProps} {...dragHandleProps} className={className} style={{ ...style, border: '3px solid #ffb53e', height: `${151 + (cardChildren.length - 1) * 25}px`, width: '101px', borderRadius: '5px' }}>
+            {cardChildren.map((item, index) => { return item == null ? <></> : <img key={"cardImg_" + index} src={images[item.cardId]} alt="" /> })}
                     </div>
-                )
-            }}
-        </Draggable>)
+    )
+}}
+        </Draggable >)
 }
 
 export default Card;
