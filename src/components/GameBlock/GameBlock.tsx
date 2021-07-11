@@ -301,16 +301,21 @@ function GameBlock(props: MyProps) {
     }
 
     const _handleOnDragEnd = (result: DropResult) => {
+        const { destination, source } = result;
         setdraggingItemId('');
 
-        if (!result.destination) {
+        if (!destination) {
             return
+        }
+
+        if (destination.droppableId === source.droppableId && destination.index === source.index) {
+            return;
         }
 
         //result.destination.droppableId = {`table_${instance.tabvarype}_${instance.tableIndex}`}
         // result.draggableId={`card_${instance.tabvarype}_${instance.tableIndex}_${index}`}
         const draggableId = result.draggableId.split('_');
-        const droppableId = result.destination.droppableId.split('_');
+        const droppableId = destination.droppableId.split('_');
 
         _handleCardMove(
             parseInt(draggableId[3]),
