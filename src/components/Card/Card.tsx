@@ -21,7 +21,7 @@ function Card(props: MyProps) {
     const _handleCardClick = () => {
         if (instance == null || !handleCardMove) return;
         if (instance.canAuto) {
-            handleCardMove(draggableIndex,instance.tableType,"OverLayout",instance.tableIndex,instance.typeNum)
+            handleCardMove(draggableIndex, instance.tableType, "OverLayout", instance.tableIndex, instance.typeNum)
         }
     }
 

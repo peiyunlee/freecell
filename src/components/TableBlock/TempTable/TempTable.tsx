@@ -8,11 +8,12 @@ interface MyProps {
     instance: (PokerCard | null),
     draggingItemId: string,
     tableIndex: number,
+    handleCardMove: (index: number, from: string, to: string, fromIndex: number, toIndex: number) => void
     children?: React.ReactNode,
 }
 
 function TempTable(props: MyProps) {
-    const { instance, tableIndex, draggingItemId } = props
+    const { instance, tableIndex, draggingItemId, handleCardMove } = props
 
     //     canDrop: item => cardId == ''
 
@@ -22,6 +23,7 @@ function TempTable(props: MyProps) {
         draggingItemId: draggingItemId,
         cardChildren: [instance],
         canDrag: true,
+        handleCardMove: handleCardMove,
     }
 
     return (

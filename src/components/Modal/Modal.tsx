@@ -97,7 +97,7 @@ function Modal(props: MyProps) {
                 <div className={styles.btn_wrapper}>
                     {content[modalType].btn.map((item, index) => {
                         const onClickFC = setClickFC(item);
-                        return <Button key={"modalbtn" + index} content={item} onClickFC={onClickFC} />
+                        return <Button disable={false} key={"modalbtn" + index} content={item} onClickFC={onClickFC} />
                     })}
                 </div>
             </div>

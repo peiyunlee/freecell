@@ -8,15 +8,16 @@ interface MyProps {
     tempLayout: Array<PokerCard | null>,
     overLayout: PokerCard[][],
     draggingItemId: string,
+    handleCardMove:(index: number, from: string, to: string, fromIndex: number, toIndex: number) => void
     children?: React.ReactNode,
 }
 
 function TableBlock(props: MyProps) {
-    const { tempLayout, overLayout, draggingItemId } = props;
+    const { tempLayout, overLayout, draggingItemId,handleCardMove } = props;
 
     return (
         <div className={styles.tableblock}>
-            <TempTableList draggingItemId={draggingItemId} tempLayout={tempLayout} />
+            <TempTableList draggingItemId={draggingItemId} tempLayout={tempLayout} handleCardMove={handleCardMove}/>
             <div className={styles.logo}>
                 <img src={logo} alt="" />
                 <h1>FREECELL</h1>

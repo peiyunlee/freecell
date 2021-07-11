@@ -13,7 +13,8 @@ interface MyProps {
 }
 
 function Menu(props: MyProps) {
-    const store = useSelector((store: storeTypes) => store.gameReducer)
+    const gameStore = useSelector((store: storeTypes) => store.gameReducer)
+    const cardStore = useSelector((store: storeTypes) => store.cardReducer)
     const dispatch = useDispatch();
     const { setModalShow } = props;
 
@@ -26,8 +27,8 @@ function Menu(props: MyProps) {
     }, []);
 
     useEffect(() => {
-        _transSecondsToTime(store.seconds);
-    }, [store.seconds]);
+        _transSecondsToTime(gameStore.seconds);
+    }, [gameStore.seconds]);
 
     const clickNewGame = () => {
         setModalShow(2);
@@ -43,7 +44,7 @@ function Menu(props: MyProps) {
     }
 
     const clickUndo = () => {
-        //
+        dispatch(cardActions.UndoStepCount())
     }
 
     const _transSecondsToTime = (seconds: number) => {
@@ -59,13 +60,13 @@ function Menu(props: MyProps) {
             <div className={styles.gamestate}>
                 <div className={styles.info} onClick={() => { setModalShow(3) }}><img src={info} alt="" /></div>
                 <div>TIME: {time}</div>
-                <div>SCORE: {store.score}</div>
+                <div>SCORE: {gameStore.score}</div>
             </div>
             <div className={styles.gamecontroller}>
-                <Button content={"NEW GAME"} onClickFC={clickNewGame} />
-                <Button content={"RESTART"} onClickFC={clickRestart} />
-                <Button content={"HINT"} onClickFC={clickHint} />
-                <Button content={"UNDO"} onClickFC={clickUndo} />
+                <Button disable={false} content={"NEW GAME"} onClickFC={clickNewGame} />
+                <Button disable={cardStore.stepCount > 0 ? false : true} content={"RESTART"} onClickFC={clickRestart} />
+                <Button disable={false} content={"HINT"} onClickFC={clickHint} />
+                <Button disable={cardStore.stepCount > 0 ? false : true} content={"UNDO"} onClickFC={clickUndo} />
             </div>
         </div>
     );

@@ -19,6 +19,14 @@ function GameBlock(props: MyProps) {
     const dispatch = useDispatch();
     const { setModalShow } = props;
 
+    useEffect(() => {
+        if (store.steps.length == store.stepCount) return;
+        const step = store.steps[store.steps.length - 1];
+        if (step) {
+            _handleCardMove(step.resultIndex, step.to, step.from, step.toIndex, step.fromIndex, true)
+        }
+    }, [store.stepCount])
+
     const [questionLayout, setquestionLayout] = useState<PokerCard[][]>(store.questionLayout)
 
     useEffect(() => {
@@ -42,15 +50,15 @@ function GameBlock(props: MyProps) {
     }, [store.overLayout])
 
     const _isGameFinish = () => {
-        let result = false;
+        var result = false;
         result = overLayout.every((item) => item.length == 13)
         return result;
     }
 
-    const [draggingItemId, setdraggingItemId] = useState<string>(''); 
+    const [draggingItemId, setdraggingItemId] = useState<string>('');
 
     const _setCardCanAuto = (layout: PokerCard[][]): PokerCard[][] => {
-        let temp = layout;
+        var temp = layout;
         temp.map((item) => {
             item.map((item, index) => {
                 item.setCanAuto(_isCardNumberDecreaseByOne(index, item.tableType, "OverLayout", item.tableIndex, item.typeNum));
@@ -59,26 +67,26 @@ function GameBlock(props: MyProps) {
         return layout;
     }
 
-    const _handleCardMove = (index: number, from: string, to: string, fromIndex: number, toIndex: number) => {
+    const _handleCardMove = (index: number, from: string, to: string, fromIndex: number, toIndex: number, isUndo: boolean = false) => {
         switch (to) {
             case "QuestionLayout":
                 if (!(_isCardColorMatch(index, from, to, fromIndex, toIndex)
-                    && _isCardNumberIncreaseByOne(index, from, to, fromIndex, toIndex)))
+                    && _isCardNumberIncreaseByOne(index, from, to, fromIndex, toIndex)) && !isUndo)
                     return;
-                _setCardToQuestionLayout(index, from, fromIndex, toIndex)
+                _setCardToQuestionLayout(index, from, to, fromIndex, toIndex, isUndo)
                 break;
             case "TempLayout":
                 if (!(_isCardLastOne(index, from, fromIndex)
-                    && tempLayout[toIndex] == null))
-                    return;
-                _setCardToTempLayout(from, fromIndex, toIndex)
+                    && tempLayout[toIndex] == null) && !isUndo)
+                    return;        
+                _setCardToTempLayout(index, from, to, fromIndex, toIndex, isUndo)
                 break;
             case "OverLayout":
                 if (!(_isCardTypeMatch(index, from, to, fromIndex, toIndex)
                     && _isCardNumberDecreaseByOne(index, from, to, fromIndex, toIndex)
-                    && _isCardLastOne(index, from, fromIndex)))
+                    && _isCardLastOne(index, from, fromIndex)) && !isUndo)
                     return;
-                _setCardToOverLayout(from, fromIndex, toIndex)
+                _setCardToOverLayout(index, from, to, fromIndex, toIndex, isUndo)
                 break;
             default:
                 break;
@@ -92,7 +100,7 @@ function GameBlock(props: MyProps) {
     }
 
     const _isCardColorMatch = (index: number, from: string, to: string, fromIndex: number, toIndex: number): boolean => {
-        let item;
+        var item;
         if (to != 'QuestionLayout') return true;
         if (questionLayout[toIndex].length == 0) return true;
 
@@ -108,7 +116,7 @@ function GameBlock(props: MyProps) {
         //from - 1 = to
         if (to != 'OverLayout') return true;
 
-        let item;
+        var item;
         if (from == 'QuestionLayout') item = questionLayout[fromIndex][index];
         else if (from == 'TempLayout') item = tempLayout[fromIndex];
         else item = overLayout[fromIndex][index];
@@ -124,7 +132,7 @@ function GameBlock(props: MyProps) {
         if (to != 'QuestionLayout') return true;
         if (questionLayout[toIndex].length == 0) return true;
 
-        let item;
+        var item;
         if (from == 'QuestionLayout') item = questionLayout[fromIndex][index];
         else if (from == 'TempLayout') item = tempLayout[fromIndex];
         else item = overLayout[fromIndex][index];
@@ -136,7 +144,7 @@ function GameBlock(props: MyProps) {
     const _isCardTypeMatch = (index: number, from: string, to: string, fromIndex: number, toIndex: number): boolean => {
         if (to != 'OverLayout') return true;
 
-        let item;
+        var item;
         if (from == 'QuestionLayout') item = questionLayout[fromIndex][index];
         else if (from == 'TempLayout') item = tempLayout[fromIndex];
         else item = overLayout[fromIndex][index];
@@ -146,12 +154,15 @@ function GameBlock(props: MyProps) {
         return PokerCard._isCardTypeMatch(item, overLayout[toIndex][overLayout[toIndex].length - 1]);
     }
 
-    const _setCardToQuestionLayout = (index: number, from: string, fromIndex: number, toIndex: number) => {
-        let newQuestionLayout = questionLayout;
-        let instance: PokerCard | undefined | null;
+    const _setCardToQuestionLayout = (index: number, from: string, to: string, fromIndex: number, toIndex: number, isUndo: boolean) => {
+        var newQuestionLayout = questionLayout;
+        var newTempLayout = tempLayout;
+        var newOverLayout = overLayout;
+        var instance: PokerCard | undefined | null;
+        var resultIndex = newQuestionLayout[toIndex].length;
         switch (from) {
             case "QuestionLayout":
-                let cardlist = newQuestionLayout[fromIndex].slice(index)
+                var cardlist = newQuestionLayout[fromIndex].slice(index)
                 newQuestionLayout[fromIndex] = newQuestionLayout[fromIndex].slice(0, index)
                 cardlist.forEach((item) => {
                     item.setNewTable("QuestionLayout", toIndex)
@@ -161,10 +172,9 @@ function GameBlock(props: MyProps) {
                 dispatch(gameActions.addScore(-5))
                 break;
             case "TempLayout":
-                let newTempLayout = tempLayout;
                 instance = newTempLayout[fromIndex];
                 if (instance == null) {
-                    return
+                    return false;
                 }
                 instance.setNewTable("QuestionLayout", toIndex)
                 newQuestionLayout[toIndex].push(instance);
@@ -174,10 +184,9 @@ function GameBlock(props: MyProps) {
                 dispatch(gameActions.addScore(-5))
                 break;
             case "OverLayout":
-                let newOverLayout: PokerCard[][] = overLayout;
                 instance = newOverLayout[fromIndex].pop();
                 if (!instance) {
-                    return
+                    return false;
                 }
                 instance.setNewTable("QuestionLayout", toIndex)
                 newQuestionLayout[toIndex].push(instance);
@@ -186,20 +195,25 @@ function GameBlock(props: MyProps) {
                 dispatch(gameActions.addScore(-100))
                 break;
             default:
-                return
-                break;
+                return false;
         }
+        if (isUndo)
+            dispatch(cardActions.UndoStep())
+        else
+            dispatch(cardActions.AddStep({ resultIndex, from, to, fromIndex, toIndex }))
     }
 
-    const _setCardToTempLayout = (from: string, fromIndex: number, toIndex: number) => {
-        let newTempLayout = tempLayout;
-        let instance: PokerCard | undefined | null;
+    const _setCardToTempLayout = (index: number, from: string, to: string, fromIndex: number, toIndex: number, isUndo: boolean) => {
+        var newQuestionLayout = questionLayout;
+        var newTempLayout = tempLayout;
+        var newOverLayout = overLayout;
+        var instance: PokerCard | undefined | null;
+        var resultIndex = 0;
         switch (from) {
             case "QuestionLayout":
-                let newQuestionLayout = questionLayout;
                 instance = newQuestionLayout[fromIndex].pop();
                 if (!instance) {
-                    return
+                    return false;
                 }
                 instance.setNewTable("TempLayout", toIndex)
                 newTempLayout[toIndex] = instance;
@@ -210,7 +224,7 @@ function GameBlock(props: MyProps) {
             case "TempLayout":
                 instance = newTempLayout[fromIndex];
                 if (instance == null) {
-                    return
+                    return false;
                 }
                 instance.setNewTable("TempLayout", toIndex)
                 newTempLayout[toIndex] = instance;
@@ -218,10 +232,9 @@ function GameBlock(props: MyProps) {
                 dispatch(cardActions.setTempLayout(newTempLayout))
                 break;
             case "OverLayout":
-                let newOverLayout = overLayout;
                 instance = newOverLayout[fromIndex].pop();
                 if (!instance) {
-                    return
+                    return false;
                 }
                 instance.setNewTable("TempLayout", toIndex)
                 newTempLayout[toIndex] = instance;
@@ -230,20 +243,25 @@ function GameBlock(props: MyProps) {
                 dispatch(gameActions.addScore(-100))
                 break;
             default:
-                return
-                break;
+                return false;
         }
+        if (isUndo)
+            dispatch(cardActions.UndoStep())
+        else
+            dispatch(cardActions.AddStep({ resultIndex, from, to, fromIndex, toIndex }))
     }
 
-    const _setCardToOverLayout = (from: string, fromIndex: number, toIndex: number) => {
-        let newOverLayout = overLayout;
-        let instance: PokerCard | undefined | null;
+    const _setCardToOverLayout = (index: number, from: string, to: string, fromIndex: number, toIndex: number, isUndo: boolean) => {
+        var newQuestionLayout = questionLayout;
+        var newTempLayout = tempLayout;
+        var newOverLayout = overLayout;
+        var instance: PokerCard | undefined | null;
+        var resultIndex = newOverLayout[toIndex].length;
         switch (from) {
             case "QuestionLayout":
-                let newQuestionLayout = questionLayout;
                 instance = newQuestionLayout[fromIndex].pop();
                 if (!instance) {
-                    return
+                    return false;
                 }
                 instance.setNewTable("OverLayout", toIndex)
                 newOverLayout[toIndex].push(instance);
@@ -252,10 +270,9 @@ function GameBlock(props: MyProps) {
                 dispatch(gameActions.addScore(50))
                 break;
             case "TempLayout":
-                let newTempLayout = tempLayout;
                 instance = newTempLayout[fromIndex];
                 if (instance == null) {
-                    return
+                    return false;
                 }
                 instance.setNewTable("OverLayout", toIndex)
                 newOverLayout[toIndex].push(instance);
@@ -267,15 +284,19 @@ function GameBlock(props: MyProps) {
             case "OverLayout":
                 instance = newOverLayout[fromIndex].pop();
                 if (!instance) {
-                    return
+                    return false;
                 }
                 instance.setNewTable("OverLayout", toIndex)
                 newOverLayout[toIndex].push(instance);
                 dispatch(cardActions.setOverLayout(newOverLayout))
                 break;
             default:
-                break;
+                return false;
         }
+        if (isUndo)
+            dispatch(cardActions.UndoStep())
+        else
+            dispatch(cardActions.AddStep({ resultIndex, from, to, fromIndex, toIndex }))
     }
 
     const _handleOnDragEnd = (result: DropResult) => {
@@ -285,8 +306,8 @@ function GameBlock(props: MyProps) {
             return
         }
 
-        //result.destination.droppableId = {`table_${instance.tableType}_${instance.tableIndex}`}
-        // result.draggableId={`card_${instance.tableType}_${instance.tableIndex}_${index}`}
+        //result.destination.droppableId = {`table_${instance.tabvarype}_${instance.tableIndex}`}
+        // result.draggableId={`card_${instance.tabvarype}_${instance.tableIndex}_${index}`}
         const draggableId = result.draggableId.split('_');
         const droppableId = result.destination.droppableId.split('_');
 
@@ -295,7 +316,7 @@ function GameBlock(props: MyProps) {
             draggableId[1],
             droppableId[1],
             parseInt(draggableId[2]),
-            parseInt(droppableId[2])
+            parseInt(droppableId[2]),
         );
     }
 
@@ -308,8 +329,8 @@ function GameBlock(props: MyProps) {
 
     return (
         <DragDropContext onBeforeDragStart={(start: DragStart) => { _onDragStart(start) }} onDragEnd={(result: DropResult) => _handleOnDragEnd(result)}>
-            <TableBlock draggingItemId={draggingItemId} tempLayout={tempLayout} overLayout={overLayout} />
-            <CardBlock draggingItemId={draggingItemId} questionLayout={questionLayout} handleCardMove={_handleCardMove}/>
+            <TableBlock draggingItemId={draggingItemId} tempLayout={tempLayout} overLayout={overLayout} handleCardMove={_handleCardMove} />
+            <CardBlock draggingItemId={draggingItemId} questionLayout={questionLayout} handleCardMove={_handleCardMove} />
         </DragDropContext>
     );
 }

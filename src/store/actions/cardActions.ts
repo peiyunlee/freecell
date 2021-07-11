@@ -1,4 +1,5 @@
 import * as types from '../../lib/constants/actionTypes';
+import Step from '../../lib/interface/MoveStep';
 import PokerCard from '../../lib/PokerCard';
 
 interface SetQuestionLayoutAction {
@@ -47,4 +48,30 @@ export const restartLayout = (): RestartLayoutAction => ({
     type: types.RESTART_LAYOUT,
 });
 
-export type cardAction = SetQuestionLayoutAction | SetTempLayoutAction | SetOverLayoutAction | NewLayoutAction | RestartLayoutAction;
+interface UndoStepCountAction {
+    type: types.UNDO_STEPCOUNT
+}
+
+export const UndoStepCount = (): UndoStepCountAction => ({
+    type: types.UNDO_STEPCOUNT,
+});
+
+interface UndoStepAction {
+    type: types.UNDO_STEP
+}
+
+export const UndoStep = (): UndoStepAction => ({
+    type: types.UNDO_STEP,
+});
+
+interface AddStepAction {
+    step: Step,
+    type: types.ADD_STEP
+}
+
+export const AddStep = (step: Step): AddStepAction => ({
+    step: step,
+    type: types.ADD_STEP,
+});
+
+export type cardAction = AddStepAction | UndoStepAction | UndoStepCountAction | SetQuestionLayoutAction | SetTempLayoutAction | SetOverLayoutAction | NewLayoutAction | RestartLayoutAction;

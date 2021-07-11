@@ -3,15 +3,16 @@ import styles from './style.scss';
 
 interface MyProps {
     content: string,
+    disable: boolean,
     onClickFC: () => void,
     children?: React.ReactNode,
 }
 
 function Button(props: MyProps) {
-    const { content, onClickFC } = props
+    const { disable, content, onClickFC } = props
 
     return (
-        <button className={styles.button} onClick={() => onClickFC()}>{content}</button>
+        <button disabled={disable} className={disable ? `${styles.button_disable}` : `${styles.button}`} onClick={() => onClickFC()}>{content}</button>
     );
 }
 

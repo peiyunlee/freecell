@@ -8,9 +8,9 @@ import Modal from '../../components/Modal/Modal';
 import Menu from '../Menu/Menu';
 
 function App(){
+    const dispatch = useDispatch();
     const [isModalShow, setisModalShow] = useState(false);
     const [modalType, setmodalType] = useState(0);
-    const dispatch = useDispatch();
 
     const setModalShow = (modalType: number | null) => {
         if (modalType != null)

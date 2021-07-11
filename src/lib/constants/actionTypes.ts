@@ -7,6 +7,15 @@ export type SET_TEMPLAYOUT = typeof SET_TEMPLAYOUT;
 export const SET_OVERLAYOUT = 'SET_OVERLAYOUT';
 export type SET_OVERLAYOUT = typeof SET_OVERLAYOUT;
 
+export const UNDO_STEP = 'UNDO_STEP';
+export type UNDO_STEP = typeof UNDO_STEP;
+
+export const UNDO_STEPCOUNT = 'UNDO_STEPCOUNT';
+export type UNDO_STEPCOUNT = typeof UNDO_STEPCOUNT;
+
+export const ADD_STEP = 'ADD_STEP';
+export type ADD_STEP = typeof ADD_STEP;
+
 export const NEW_LAYOUT = 'NEW_LAYOUT';
 export type NEW_LAYOUT = typeof NEW_LAYOUT;
 
