@@ -1,6 +1,6 @@
 # Freecell
 
->#### [Github Page](https://peiyunlee.github.io/Web_React_Freecell/)
+>#### [Github Page](https://peiyunlee.github.io/freecell/)
 
 ## Description
 [THE F2E 前端修練精神時光屋 - 2019 - 第二關：新接龍](https://challenge.thef2e.com/news/13)
