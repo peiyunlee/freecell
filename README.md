@@ -3,8 +3,7 @@
 >### Github Page：[https://peiyunlee.github.io/Web_React_Freecell/](https://peiyunlee.github.io/Web_React_Freecell/)
 
 ## Description
-THE F2E 前端修練精神時光屋 - 2019 - 第二關：新接龍
-[https://challenge.thef2e.com/news/13](https://challenge.thef2e.com/news/13)
+[THE F2E 前端修練精神時光屋 - 2019 - 第二關：新接龍](https://challenge.thef2e.com/news/13)
 
 - 尚未完成Hint功能
 - Bug：Drag卡片完會有移動偏移
@@ -17,5 +16,4 @@ THE F2E 前端修練精神時光屋 - 2019 - 第二關：新接龍
 4. Open http://localhost:8000
 
 ## Design
-By Daphne (The F2E Callenge's uiux participant)
-https://challenge.thef2e.com/user/2104
+[By Daphne (The F2E Callenge's uiux participant)](https://challenge.thef2e.com/user/2104)
