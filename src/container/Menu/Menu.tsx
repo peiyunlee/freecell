@@ -65,7 +65,7 @@ function Menu(props: MyProps) {
             <div className={styles.gamecontroller}>
                 <Button disable={false} content={"NEW GAME"} onClickFC={clickNewGame} />
                 <Button disable={cardStore.stepCount > 0 ? false : true} content={"RESTART"} onClickFC={clickRestart} />
-                <Button disable={false} content={"HINT"} onClickFC={clickHint} />
+                <Button disable={true} content={"HINT"} onClickFC={clickHint} />
                 <Button disable={cardStore.stepCount > 0 ? false : true} content={"UNDO"} onClickFC={clickUndo} />
             </div>
         </div>
